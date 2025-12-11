@@ -5,9 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Education | Mercutio Levi</title>
     <style>
-        /* ===================================================
-           CSS VARIABLES - Consistent with index.html
-           =================================================== */
         :root {
             --black: #000000;
             --white: #ffffff;
@@ -15,15 +12,13 @@
             --gray-medium: #333333;
             --gray-light: #666666;
             --gray-soft: #e0e0e0;
-            --accent: #00e5ff; /* Updated to match experience page */
+            --accent: #00e5ff;
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             
-            /* ADJUST: Layout heights - Desktop */
             --video-height: 80vh;
             --cards-height: 20vh;
             --fade-height: 100px;
             
-            /* ADJUST: Card sizes - Desktop */
             --card-min-width: 150px;
             --card-max-width: 250px;
         }
@@ -42,14 +37,11 @@
             min-height: 100vh;
         }
 
-        /* ===================================================
-           HERO IMAGE SECTION (Replaces video from homepage)
-           =================================================== */
         .hero-image-section {
             height: var(--video-height);
             position: relative;
             overflow: hidden;
-            margin-top: 80px; /* Added for fixed nav */
+            margin-top: 80px;
         }
 
         .hero-image-background {
@@ -75,7 +67,6 @@
             object-position: center;
         }
 
-        /* Image Overlay for Text Readability */
         .hero-image-background::before {
             content: '';
             position: absolute;
@@ -88,11 +79,8 @@
             pointer-events: none;
         }
 
-        /* ===================================================
-           NAVIGATION - UPDATED TO MATCH EXPERIENCE PAGE
-           =================================================== */
         .nav-banner {
-            position: fixed; /* Changed from absolute to fixed */
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
@@ -104,15 +92,15 @@
             justify-content: flex-start;
             gap: 3rem;
             height: 80px;
-            backdrop-filter: blur(8px); /* Added from experience page */
-            border-bottom: 1px solid rgba(255, 255, 255, 0.15); /* Added from experience page */
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15); 
         }
 
         .logo-link {
             text-decoration: none;
             display: block;
-            width: 80px; /* Updated to fixed size like experience page */
-            height: 45px; /* Updated to fixed size like experience page */
+            width: 80px; 
+            height: 45px;
         }
 
         .logo-container {
@@ -125,13 +113,12 @@
         .logo-image {
             width: 100%;
             height: 100%;
-            object-fit: fill; /* Changed from contain to fill like experience page */
+            object-fit: fill; 
             display: block;
             background: transparent;
-            filter: brightness(1.5); /* Added from experience page */
+            filter: brightness(1.5); 
         }
 
-        /* Desktop Navigation */
         .nav-menu {
             display: flex;
             gap: 2.5rem;
@@ -144,14 +131,13 @@
             font-size: 1.1rem;
             font-weight: 500;
             padding: 0.5rem 0;
-            transition: color 0.3s ease; /* Added transition */
+            transition: color 0.3s ease;
             letter-spacing: 0.5px;
             text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
         }
 
-        /* ACCENT COLOR HOVER EFFECT (Like experience page) */
         .nav-link:hover {
-            color: var(--accent); /* Updated to accent color */
+            color: var(--accent); 
         }
 
         .nav-link.active {
@@ -159,7 +145,6 @@
             font-weight: 700;
         }
 
-        /* Mobile Hamburger Menu */
         .hamburger-checkbox {
             display: none;
         }
@@ -182,9 +167,6 @@
             border-radius: 3px;
         }
 
-        /* ===================================================
-           HERO TEXT SECTION (Centered in hero area)
-           =================================================== */
         .hero-text-section {
             height: 100%;
             padding: 0 5%;
@@ -215,9 +197,6 @@
             text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.8);
         }
 
-        /* ===================================================
-           MAIN CONTENT - WITH FLUID MARGINS
-           =================================================== */
         .main-content {
             padding: 3rem 5% 3rem;
             max-width: 1400px;
@@ -228,9 +207,6 @@
             z-index: 20;
         }
 
-        /* ===================================================
-           EDUCATION SECTIONS
-           =================================================== */
         .education-section {
             margin-bottom: 6rem;
             width: 100%;
@@ -252,13 +228,10 @@
             top: 0.5rem;
             bottom: 0.5rem;
             width: 4px;
-            background: var(--accent); /* Updated to use accent color */
+            background: var(--accent); 
             border-radius: 2px;
         }
 
-        /* ===================================================
-           UNIVERSITY ITEMS - CSS GRID LAYOUT
-           =================================================== */
         .major-education-list {
             display: flex;
             flex-direction: column;
@@ -297,9 +270,6 @@
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
         }
 
-        /* ===================================================
-           IMAGE COLUMN - TOP & BOTTOM IMAGES
-           =================================================== */
         .education-images-column {
             display: flex;
             flex-direction: column;
@@ -327,9 +297,6 @@
             transform: scale(1.05);
         }
 
-        /* ===================================================
-           CONTENT COLUMN
-           =================================================== */
         .education-content {
             display: flex;
             flex-direction: column;
@@ -367,14 +334,14 @@
 
         .education-date {
             font-size: 0.95rem;
-            color: var(--accent); /* Updated to use accent color */
+            color: var(--accent); 
             font-weight: 500;
             padding: 0.4rem 1rem;
-            background: rgba(0, 229, 255, 0.1); /* Updated to match accent */
+            background: rgba(0, 229, 255, 0.1); 
             border-radius: 20px;
             display: inline-block;
             margin-bottom: 1.5rem;
-            border: 1px solid rgba(0, 229, 255, 0.2); /* Updated to match accent */
+            border: 1px solid rgba(0, 229, 255, 0.2); 
         }
 
         .education-description {
@@ -395,9 +362,6 @@
             line-height: 1.6;
         }
 
-        /* ===================================================
-           CERTIFICATION CARDS - HOMEPAGE STYLE HOVER EFFECT
-           =================================================== */
         .certifications-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -405,7 +369,6 @@
             width: 100%;
         }
 
-        /* Card Base - Like homepage cards */
         .certification-card {
             text-decoration: none;
             display: block;
@@ -415,12 +378,11 @@
             overflow: hidden;
             cursor: pointer;
             background: rgba(20, 20, 20, 0.9);
-            aspect-ratio: 4/3; /* Slightly taller than square */
+            aspect-ratio: 4/3; 
             width: 100%;
             transition: var(--transition);
         }
 
-        /* Card Images */
         .certification-image {
             width: 100%;
             height: 100%;
@@ -431,7 +393,6 @@
             transition: var(--transition);
         }
 
-        /* Card Overlay - Hidden by default */
         .certification-overlay {
             position: absolute;
             top: 0;
@@ -451,7 +412,6 @@
             transition: var(--transition);
         }
 
-        /* Card Titles */
         .certification-title {
             font-size: 1.2rem;
             color: var(--white);
@@ -461,7 +421,6 @@
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
         }
 
-        /* Card Descriptions */
         .certification-description {
             font-size: 0.9rem;
             color: var(--gray-soft);
@@ -470,7 +429,6 @@
             line-height: 1.5;
         }
 
-        /* Provider & Date */
         .certification-meta {
             display: flex;
             justify-content: space-between;
@@ -486,16 +444,13 @@
 
         .certification-date {
             font-size: 0.8rem;
-            color: var(--accent); /* Updated to use accent color */
-            background: rgba(0, 229, 255, 0.1); /* Updated to match accent */
+            color: var(--accent); 
+            background: rgba(0, 229, 255, 0.1); 
             padding: 0.3rem 0.8rem;
             border-radius: 20px;
-            border: 1px solid rgba(0, 229, 255, 0.2); /* Updated to match accent */
+            border: 1px solid rgba(0, 229, 255, 0.2);
         }
 
-        /* ===================================================
-           DESKTOP HOVER EFFECTS (Exactly like homepage)
-           =================================================== */
         @media (hover: hover) and (pointer: fine) {
             .certification-card:hover {
                 transform: translateY(-8px) scale(1.03);
@@ -528,9 +483,6 @@
             }
         }
 
-        /* ===================================================
-           FOOTER
-           =================================================== */
         .footer {
             text-align: center;
             padding: 3rem 5%;
@@ -542,9 +494,6 @@
             border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* ===================================================
-           RESPONSIVE ADJUSTMENTS
-           =================================================== */
         @media (max-width: 1024px) {
             .major-education-item {
                 grid-template-columns: 1fr;
@@ -568,7 +517,6 @@
         }
 
         @media (max-width: 768px) {
-            /* Mobile Navigation */
             .hamburger-icon {
                 display: flex;
             }
@@ -593,14 +541,13 @@
                 right: 0;
             }
             
-            /* Mobile Adjustments */
             .hero-image-section {
-                display: none; /* Hide hero image on mobile */
-                margin-top: 0; /* Remove margin on mobile */
+                display: none; 
+                margin-top: 0; 
             }
             
             .nav-banner {
-                position: relative; /* Change to relative on mobile */
+                position: relative; 
                 background-color: rgba(0, 0, 0, 0.85);
             }
             
@@ -634,7 +581,6 @@
                 margin: 0 auto;
             }
             
-            /* Mobile tap instead of hover */
             .certification-card.active-mobile {
                 transform: translateY(-5px);
                 box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
@@ -702,7 +648,6 @@
             }
         }
 
-        /* Desktop Animations */
         @media (hover: hover) and (pointer: fine) and (min-width: 769px) {
             .hero-text-section {
                 animation: fadeInUp 1s ease-out 0.6s both;
@@ -712,7 +657,6 @@
                 animation: fadeInUp 1s ease-out 0.8s both;
             }
             
-            /* Card Entrance Animations */
             .certification-card:nth-child(1) {
                 animation: fadeInUp 1s ease-out 0.9s both;
             }
@@ -742,13 +686,13 @@
 <body>
     <section class="hero-image-section">
         <div class="hero-image-background" id="heroImageBackground">
-            <img src="/assets/images/DIT.jpeg" alt="Education Background" class="background-hero-image">
+            <img src="assets/images/DIT.jpeg" alt="Education Background" class="background-hero-image">
         </div>
         
         <nav class="nav-banner">
             <a href="index.html" class="logo-link">
                 <div class="logo-container">
-                    <img src="/assets/images/logo/MERC_black.jpg" alt="Mercutio Levi Logo" class="logo-image">
+                    <img src="assets/images/logo/MERC_black.jpg" alt="Mercutio Levi Logo" class="logo-image">
                 </div>
             </a>
             
@@ -782,10 +726,10 @@
                 <div class="major-education-item">
                     <div class="education-images-column">
                         <div class="education-image-container">
-                            <img src="/assets/images/Photo_1.JPG" alt="Mercutio Levi at Rangsit University" class="education-image">
+                            <img src="assets/images/Photo_1.JPG" alt="Mercutio Levi at Rangsit University" class="education-image">
                         </div>
                         <div class="education-image-container">
-                            <img src="/assets/images/Rangsit_DIT.jpg" alt="Rangsit University Campus" class="education-image">
+                            <img src="assets/images/Rangsit_DIT.jpg" alt="Rangsit University Campus" class="education-image">
                         </div>
                     </div>
                     <div class="education-content">
@@ -813,10 +757,10 @@
                 <div class="major-education-item">
                     <div class="education-images-column">
                         <div class="education-image-container">
-                            <img src="/assets/images/Dagon_Logo.jpeg" alt="Dagon University" class="education-image">
+                            <img src="assets/images/Dagon_Logo.jpeg" alt="Dagon University" class="education-image">
                         </div>
                         <div class="education-image-container">
-                            <img src="/assets/images/Dagon_University.jpg" alt="Dagon University Campus" class="education-image">
+                            <img src="assets/images/Dagon_University.jpg" alt="Dagon University Campus" class="education-image">
                         </div>
                     </div>
                     <div class="education-content">
@@ -849,7 +793,7 @@
             
             <div class="certifications-grid">
                 <div class="certification-card">
-                    <img src="/assets/images/Lotus.jpeg" alt="International Bakery & Pastry Course" class="certification-image">
+                    <img src="assets/images/Lotus.jpeg" alt="International Bakery & Pastry Course" class="certification-image">
                     <div class="certification-overlay">
                         <div class="certification-meta">
                             <span class="certification-provider">Lotus School of Hospitality</span>
@@ -864,7 +808,7 @@
                 </div>
                 
                 <div class="certification-card">
-                    <img src="/assets/images/YGN.jpeg" alt="Computer Skills Certificate" class="certification-image">
+                    <img src="assets/images/YGN.jpeg" alt="Computer Skills Certificate" class="certification-image">
                     <div class="certification-overlay">
                         <div class="certification-meta">
                             <span class="certification-provider">YGN Net</span>
@@ -879,7 +823,7 @@
                 </div>
                 
                 <div class="certification-card">
-                    <img src="/assets/images/MCC.jpeg" alt="Advance A+ & Computer Training" class="certification-image">
+                    <img src="assets/images/MCC.jpeg" alt="Advance A+ & Computer Training" class="certification-image">
                     <div class="certification-overlay">
                         <div class="certification-meta">
                             <span class="certification-provider">Various Institutes</span>
