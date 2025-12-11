@@ -26,9 +26,6 @@
             min-height: 100vh;
         }
 
-        /* ===================================================
-           ORIGINAL NAV BAR - TRANSPARENT (From experience.html)
-           =================================================== */
         .nav-banner {
             position: fixed;
             top: 0;
@@ -111,7 +108,6 @@
             border-radius: 3px;
         }
 
-        /* PASSWORD PROTECTION OVERLAY */
         .password-overlay {
             position: fixed;
             top: 0;
@@ -208,7 +204,6 @@
             display: none;
         }
 
-        /* MAIN CONTENT */
         .main-content {
             padding: 120px 5% 3rem;
             max-width: 1400px;
@@ -217,7 +212,6 @@
             display: none;
         }
 
-        /* Page Header */
         .page-header {
             margin-bottom: 4rem;
             text-align: center;
@@ -240,7 +234,6 @@
             margin: 0 auto;
         }
 
-        /* PROJECTS CONTAINER */
         .projects-container {
             display: flex;
             flex-direction: column;
@@ -249,7 +242,6 @@
             margin: 0 auto;
         }
 
-        /* PROJECT ROW - Updated for Minor Projects */
         .project-row {
             display: flex;
             background: rgba(255, 255, 255, 0.05);
@@ -267,7 +259,6 @@
             box-shadow: 0 10px 25px rgba(0, 229, 255, 0.1);
         }
 
-        /* LOGOS COLUMN (LEFT) */
         .logos-column {
             flex: 0 0 280px;
             padding: 2.5rem;
@@ -280,7 +271,6 @@
             gap: 2.5rem;
         }
 
-        /* LOGO GROUP */
         .logo-group {
             display: flex;
             flex-direction: column;
@@ -297,7 +287,6 @@
             position: relative;
         }
 
-        /* Logo Boxes */
         .logo-placeholder-box {
             display: flex;
             flex-direction: column;
@@ -339,7 +328,6 @@
             letter-spacing: 0.5px;
         }
 
-        /* CONNECTOR LINE */
         .connector {
             position: absolute;
             top: 50%;
@@ -350,7 +338,6 @@
             background: rgba(255, 255, 255, 0.2);
         }
 
-        /* CONTENT COLUMN (RIGHT) */
         .content-column {
             flex: 1;
             padding: 2.5rem;
@@ -389,7 +376,6 @@
             font-size: 1.05rem;
         }
 
-        /* PROJECT META */
         .project-meta {
             display: flex;
             gap: 1.5rem;
@@ -414,7 +400,6 @@
             font-weight: 500;
         }
 
-        /* STATUS BADGE */
         .status-badge {
             display: inline-flex;
             align-items: center;
@@ -437,7 +422,6 @@
             border: 1px solid rgba(255, 193, 7, 0.2);
         }
 
-        /* TECHNOLOGY TAGS */
         .tech-tags {
             display: flex;
             flex-wrap: wrap;
@@ -462,7 +446,6 @@
             border-color: var(--accent);
         }
 
-        /* FOOTER */
         .footer {
             text-align: center;
             padding: 3rem 5%;
@@ -475,7 +458,6 @@
             margin-top: 4rem;
         }
 
-        /* RESPONSIVE DESIGN (From experience.html) */
         @media (max-width: 1024px) {
             .logos-column {
                 flex: 0 0 240px;
@@ -522,7 +504,6 @@
         }
 
         @media (max-width: 768px) {
-            /* Navigation Responsive */
             .hamburger-icon {
                 display: flex;
             }
@@ -546,7 +527,6 @@
                 right: 0;
             }
             
-            /* Main Content Responsive */
             .main-content {
                 padding: 100px 5% 2rem;
             }
@@ -572,7 +552,6 @@
                 height: 65px;
             }
 
-            /* Password Overlay Responsive */
             .password-container {
                 padding: 2rem;
                 margin: 1rem;
@@ -640,7 +619,6 @@
     </style>
 </head>
 <body>
-    <!-- Password Protection Overlay -->
     <div class="password-overlay" id="passwordOverlay">
         <div class="password-container">
             <h2 class="password-title">🔐 Project Vault</h2>
@@ -663,13 +641,10 @@
         </div>
     </div>
 
-    <!-- ===================================================
-         ORIGINAL NAV BAR - TRANSPARENT (From experience.html)
-         =================================================== -->
     <nav class="nav-banner">
         <a href="index.html" class="logo-link">
             <div class="logo-container">
-                <img src="/assets/images/logo/MERC_black.jpg" alt="Mercutio Levi Logo" class="logo-image">
+                <img src="assets/images/logo/MERC_black.jpg" alt="Mercutio Levi Logo" class="logo-image">
             </div>
         </a>
         
@@ -689,7 +664,6 @@
         </div>
     </nav>
 
-    <!-- Main Content (Hidden until password is entered) -->
     <main class="main-content" id="mainContent">
         <!-- Page Header -->
         <header class="page-header">
@@ -697,16 +671,14 @@
             <p class="page-subtitle">Educational, volunteer, and freelance work showcasing diverse skills</p>
         </header>
 
-        <!-- Projects Container -->
         <div class="projects-container">
-            <!-- Project 1: ICT at Sprout Preschool -->
             <article class="project-row">
                 <div class="logos-column">
                     <div class="logo-group">
                         <div class="logo-pair">
                             <div class="logo-placeholder-box">
                                 <div class="logo-circle">
-                                    <img src="/assets/images/logo/MERC_black.jpg" alt="Mercutio Levi">
+                                    <img src="assets/images/logo/MERC_black.jpg" alt="Mercutio Levi">
                                 </div>
                                 <span class="logo-label">Mercutio Levi</span>
                             </div>
@@ -715,7 +687,7 @@
                             
                             <div class="logo-placeholder-box">
                                 <div class="logo-circle">
-                                    <img src="/assets/images/logo/Sprout Logo.jpg" alt="Sprout Preschool">
+                                    <img src="assets/images/logo/Sprout Logo.jpg" alt="Sprout Preschool">
                                 </div>
                                 <span class="logo-label">Sprout Preschool</span>
                             </div>
@@ -757,14 +729,13 @@
                 </div>
             </article>
 
-            <!-- Project 2: RIC Peer Mentoring -->
             <article class="project-row">
                 <div class="logos-column">
                     <div class="logo-group">
                         <div class="logo-pair">
                             <div class="logo-placeholder-box">
                                 <div class="logo-circle">
-                                    <img src="/assets/images/logo/MERC_black.jpg" alt="Mercutio Levi">
+                                    <img src="assets/images/logo/MERC_black.jpg" alt="Mercutio Levi">
                                 </div>
                                 <span class="logo-label">Mercutio Levi</span>
                             </div>
@@ -773,7 +744,7 @@
                             
                             <div class="logo-placeholder-box">
                                 <div class="logo-circle">
-                                    <img src="/assets/images/logo/RIC_logo.jpeg" alt="Rangsit International College">
+                                    <img src="assets/images/logo/RIC_logo.jpeg" alt="Rangsit International College">
                                 </div>
                                 <span class="logo-label">Rangsit Int'l College</span>
                             </div>
@@ -815,14 +786,13 @@
                 </div>
             </article>
 
-            <!-- Project 3: Sky High Cannabis Business Analysis -->
             <article class="project-row">
                 <div class="logos-column">
                     <div class="logo-group">
                         <div class="logo-pair">
                             <div class="logo-placeholder-box">
                                 <div class="logo-circle">
-                                    <img src="/assets/images/logo/MERC_black.jpg" alt="Mercutio Levi">
+                                    <img src="assets/images/logo/MERC_black.jpg" alt="Mercutio Levi">
                                 </div>
                                 <span class="logo-label">Mercutio Levi</span>
                             </div>
@@ -831,7 +801,7 @@
                             
                             <div class="logo-placeholder-box">
                                 <div class="logo-circle">
-                                    <img src="/assets/images/logo/Sky_HIgh.JPG" alt="Sky High Cannabis">
+                                    <img src="assets/images/logo/Sky_HIgh.JPG" alt="Sky High Cannabis">
                                 </div>
                                 <span class="logo-label">Sky High Cannabis</span>
                             </div>
