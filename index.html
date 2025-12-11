@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home | Mercutio Levi</title>
+    <style>
+        :root {
+            --black: #000000;
+            --white: #ffffff;
+            --gray-light: #666666;
+            --gray-soft: #e0e0e0;
+            --accent: #00e5ff;
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --video-height: 80vh;
+            --cards-height: 20vh;
+            --fade-height: 100px;
+            --card-min-width: 150px;
+            --card-max-width: 250px;
+        }
+
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--black);
+            color: var(--white);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .one-screen-container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .video-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--video-height);
+            z-index: -1;
+            overflow: hidden;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        .video-background.loaded {
+            opacity: 1;
+        }
+
+        .background-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .video-background::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .video-background::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: var(--fade-height);
+            background: linear-gradient(to bottom,
+                transparent,
+                rgba(0, 0, 0, 0.2),
+                rgba(0, 0, 0, 0.5),
+                rgba(0, 0, 0, 0.8),
+                var(--black)
+            );
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .nav-banner {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: transparent;
+            z-index: 1000;
+            padding: 0.8rem 5%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 3rem;
+            height: 80px;
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .logo-link {
+            text-decoration: none;
+            display: block;
+            width: 80px;
+            height: 45px;
+        }
+
+        .logo-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-image {
+            width: 100%;
+            height: 100%;
+            object-fit: fill;
+            filter: brightness(1.5);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 500;
+            padding: 0.5rem 0;
+            transition: color 0.3s ease;
+            letter-spacing: 0.5px;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        .nav-link:hover {
+            color: var(--accent);
+        }
+
+        .nav-link.active {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .hamburger-checkbox {
+            display: none;
+        }
+
+        .hamburger-icon {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 21px;
+            cursor: pointer;
+            z-index: 101;
+        }
+
+        .hamburger-icon span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background-color: var(--white);
+            border-radius: 3px;
+        }
+
+        .hero-section {
+            flex: 1.5;
+            padding: 0 5%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 50vh;
+            z-index: 10;
+            margin-top: 80px;
+        }
+
+        .hero-name {
+            font-size: clamp(3rem, 5vw, 5rem);
+            font-weight: 800;
+            color: var(--white);
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+            line-height: 1.1;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
+        }
+
+        .hero-role {
+            font-size: clamp(1.5rem, 2.5vw, 2.5rem);
+            color: var(--white);
+            font-weight: 400;
+            letter-spacing: 1px;
+            opacity: 0.9;
+            text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.8);
+        }
+
+        .cards-section {
+            background: var(--black);
+            position: relative;
+            min-height: var(--cards-height);
+            margin-top: calc(var(--fade-height) * -0.5);
+            z-index: 20;
+        }
+
+        .cards-section::before {
+            content: '';
+            position: absolute;
+            top: calc(var(--fade-height) * -0.5);
+            left: 0;
+            width: 100%;
+            height: calc(var(--fade-height) * 0.5);
+            background: linear-gradient(to bottom, transparent, var(--black));
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(var(--card-min-width), var(--card-max-width)));
+            justify-content: center;
+            gap: 1.5rem;
+            padding: 1rem 5%;
+            position: relative;
+            z-index: 2;
+        }
+
+        .education-card,
+        .experience-card,
+        .contact-card {
+            text-decoration: none;
+            display: block;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            background: rgba(20, 20, 20, 0.9);
+            aspect-ratio: 16/9;
+            width: 100%;
+        }
+
+        .education-image,
+        .experience-image,
+        .contact-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center;
+            background: rgba(0, 0, 0, 0.5);
+            display: block;
+        }
+
+        .education-overlay,
+        .experience-overlay,
+        .contact-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, 
+                rgba(0, 0, 0, 0.95), 
+                rgba(0, 0, 0, 0.8) 30%, 
+                transparent 70%
+            );
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 1.2rem;
+            opacity: 0;
+        }
+
+        .education-title,
+        .experience-title,
+        .contact-title {
+            font-size: 1.1rem;
+            color: var(--white);
+            margin-bottom: 0.4rem;
+            font-weight: 600;
+            transform: translateY(10px);
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+        }
+
+        .education-description,
+        .experience-description,
+        .contact-description {
+            font-size: 0.8rem;
+            color: var(--gray-soft);
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        @media (hover: hover) and (pointer: fine) {
+            .education-card:hover,
+            .experience-card:hover,
+            .contact-card:hover {
+                transform: translateY(-8px) scale(1.03);
+                box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5);
+                border-color: rgba(255, 255, 255, 0.3);
+                transition: var(--transition);
+            }
+            
+            .education-card:hover .education-image,
+            .experience-card:hover .experience-image,
+            .contact-card:hover .contact-image {
+                filter: brightness(0.3);
+                transform: scale(1.05);
+                transition: var(--transition);
+            }
+            
+            .education-card:hover .education-overlay,
+            .experience-card:hover .experience-overlay,
+            .contact-card:hover .contact-overlay {
+                opacity: 1;
+                transform: translateY(0);
+                transition: var(--transition);
+            }
+            
+            .education-card:hover .education-title,
+            .experience-card:hover .experience-title,
+            .contact-card:hover .contact-title {
+                transform: translateY(0);
+                transition: transform 0.4s ease 0.1s;
+            }
+            
+            .education-card:hover .education-description,
+            .experience-card:hover .experience-description,
+            .contact-card:hover .contact-description {
+                opacity: 0.9;
+                transform: translateY(0);
+                transition: all 0.4s ease 0.2s;
+            }
+            
+            .hero-section {
+                animation: fadeInUp 1s ease-out 0.6s both;
+            }
+
+            .hero-role {
+                animation: fadeInUp 1s ease-out 0.8s both;
+            }
+            
+            .education-card {
+                animation: fadeInUp 1s ease-out 1.2s both;
+            }
+
+            .experience-card {
+                animation: fadeInUp 1s ease-out 1.3s both;
+            }
+
+            .contact-card {
+                animation: fadeInUp 1s ease-out 1.4s both;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        @media (max-width: 1023px) and (min-width: 769px) {
+            :root {
+                --video-height: 75vh;
+                --cards-height: 25vh;
+                --fade-height: 90px;
+                --card-min-width: 130px;
+                --card-max-width: 220px;
+            }
+            
+            .cards-grid {
+                gap: 1.25rem;
+                padding: 0.75rem 5%;
+            }
+            
+            .nav-menu {
+                gap: 1.5rem;
+            }
+            
+            .education-title,
+            .experience-title,
+            .contact-title {
+                font-size: 1rem;
+            }
+            
+            .education-description,
+            .experience-description,
+            .contact-description {
+                font-size: 0.75rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            :root {
+                --video-height: 70vh;
+                --cards-height: 30vh;
+                --fade-height: 80px;
+                --card-min-width: 120px;
+                --card-max-width: 200px;
+            }
+            
+            .hamburger-icon {
+                display: flex;
+            }
+            
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 80%;
+                max-width: 300px;
+                height: 100vh;
+                background-color: rgba(0, 0, 0, 0.98);
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 80px 2rem 2rem;
+                gap: 1.5rem;
+                border-left: 1px solid rgba(255, 255, 255, 0.1);
+                transition: right 0.3s ease;
+            }
+            
+            .hamburger-checkbox:checked ~ .nav-menu {
+                right: 0;
+            }
+            
+            .video-background {
+                display: none;
+            }
+            
+            .nav-banner {
+                background-color: rgba(0, 0, 0, 0.85);
+            }
+            
+            .hero-section {
+                width: 85%;
+                background: rgba(0, 0, 0, 0.5);
+                padding: 2rem 5%;
+                border-radius: 0 0 10px 10px;
+                margin-top: 0;
+            }
+            
+            .cards-section {
+                margin-top: 0;
+            }
+            
+            .cards-section::before {
+                display: none;
+            }
+            
+            .hero-section,
+            .hero-role,
+            .education-card,
+            .experience-card,
+            .contact-card {
+                animation: none;
+            }
+            
+            .education-card:active,
+            .experience-card:active,
+            .contact-card:active {
+                opacity: 0.8;
+            }
+        }
+
+        @media (max-width: 480px) {
+            :root {
+                --video-height: 65vh;
+                --cards-height: 35vh;
+                --fade-height: 60px;
+                --card-min-width: 100px;
+                --card-max-width: 160px;
+            }
+            
+            .cards-grid {
+                gap: 0.75rem;
+                padding: 0.5rem 5%;
+            }
+            
+            .hero-section {
+                width: 90%;
+            }
+            
+            .education-title,
+            .experience-title,
+            .contact-title {
+                font-size: 0.85rem;
+            }
+            
+            .education-description,
+            .experience-description,
+            .contact-description {
+                font-size: 0.65rem;
+            }
+            
+            .education-overlay,
+            .experience-overlay,
+            .contact-overlay {
+                padding: 0.75rem;
+            }
+        }
+
+        .footer {
+            text-align: center;
+            padding: 3rem;
+            color: var(--gray-light);
+            font-size: 0.9rem;
+            line-height: 1.8;
+            width: 100%;
+            background: var(--black);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+    </style>
+</head>
+<body>
+    <div class="one-screen-container">
+        
+        <div class="video-background" id="videoBackground">
+            <video class="background-video" autoplay muted loop playsinline preload="metadata">
+                <source src="/assets/videos/background_video_for_home_page.mp4" type="video/mp4">
+            </video>
+        </div>
+        
+        <nav class="nav-banner">
+            <a href="index.html" class="logo-link">
+                <div class="logo-container">
+                    <img src="/assets/images/logo/MERC_black.jpg" alt="Mercutio Levi Logo" class="logo-image">
+                </div>
+            </a>
+            
+            <input type="checkbox" id="hamburger-toggle" class="hamburger-checkbox">
+            <label for="hamburger-toggle" class="hamburger-icon" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+            
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link active">Home</a>
+                <a href="education.html" class="nav-link">Education</a>
+                <a href="experience.html" class="nav-link">Experience</a>
+                <a href="projects-lock.html" class="nav-link">Projects</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </div>
+        </nav>
+        
+        <section class="hero-section">
+            <h1 class="hero-name">Mercutio Levi</h1>
+            <h2 class="hero-role">Data Scientist • Software Engineer</h2>
+        </section>
+        
+        <section class="cards-section">
+            <div class="cards-grid">
+                <a href="education.html" class="education-card">
+                    <img src="/assets/images/logo/MERC_White.jpg" alt="Education & Certifications" class="education-image">
+                    <div class="education-overlay">
+                        <h3 class="education-title">Education & Certifications</h3>
+                        <p class="education-description">Academic background and professional qualifications</p>
+                    </div>
+                </a>
+                
+                <a href="experience.html" class="experience-card">
+                    <img src="/assets/images/logo/MERC_black.jpg" alt="Professional Experience" class="experience-image">
+                    <div class="experience-overlay">
+                        <h3 class="experience-title">Professional Experience</h3>
+                        <p class="experience-description">My journey through diverse roles and industries</p>
+                    </div>
+                </a>
+                
+                <a href="contact.html" class="contact-card">
+                    <img src="/assets/images/logo/Contact_Card.png" alt="Projects Portfolio" class="contact-image">
+                    <div class="contact-overlay">
+                        <h3 class="contact-title">Projects Portfolio</h3>
+                        <p class="contact-description">Secure access to detailed project showcase</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+    </div>
+    
+    <footer class="footer">
+        <p>© 2020 Okka Tun (Mercutio Levi). All rights reserved.</p>
+        <p>Portfolio for academic, professional, and research opportunities</p>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const videoBackground = document.getElementById('videoBackground');
+            const video = videoBackground.querySelector('.background-video');
+            
+            video.addEventListener('canplay', function() {
+                videoBackground.classList.add('loaded');
+            });
+            
+            setTimeout(function() {
+                videoBackground.classList.add('loaded');
+            }, 1000);
+            
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function() {
+                    if (window.innerWidth <= 768) {
+                        document.getElementById('hamburger-toggle').checked = false;
+                    }
+                });
+            });
+            
+            document.querySelectorAll('.education-card, .experience-card, .contact-card').forEach(card => {
+                card.addEventListener('click', function(e) {
+                    this.style.opacity = '0.9';
+                    setTimeout(() => {
+                        this.style.opacity = '';
+                    }, 150);
+                });
+            });
+            
+            function handleMobileVideo() {
+                if (window.innerWidth <= 768) {
+                    video.pause();
+                } else {
+                    video.play().catch(e => console.log("Autoplay prevented"));
+                }
+            }
+            
+            handleMobileVideo();
+            window.addEventListener('resize', handleMobileVideo);
+            
+            function setOneScreenHeight() {
+                const container = document.querySelector('.one-screen-container');
+                container.style.height = window.innerHeight + 'px';
+            }
+            
+            setOneScreenHeight();
+            window.addEventListener('resize', setOneScreenHeight);
+            
+            let lastScrollTop = 0;
+            const navBanner = document.querySelector('.nav-banner');
+            
+            window.addEventListener('scroll', function() {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                
+                if (scrollTop > 100) {
+                    navBanner.style.backgroundColor = 'rgba(0, 0, 0, 0.85)';
+                } else {
+                    navBanner.style.backgroundColor = '';
+                }
+                lastScrollTop = scrollTop;
+            });
+        });
+    </script>
+</body>
+</html>

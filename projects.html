@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects | Mercutio Levi</title>
+    <style>
+        :root {
+            --black: #000000;
+            --white: #ffffff;
+            --accent: #00e5ff;
+            --transition: all 0.3s ease;
+        }
+
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--black);
+            color: var(--white);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* ===================================================
+           ORIGINAL NAV BAR - TRANSPARENT (From experience.html)
+           =================================================== */
+        .nav-banner {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: transparent;
+            z-index: 1000;
+            padding: 0.8rem 5%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 3rem;
+            height: 80px;
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .logo-link {
+            text-decoration: none;
+            display: block;
+            width: 80px;
+            height: 45px;
+        }
+
+        .logo-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-image {
+            width: 100%;
+            height: 100%;
+            object-fit: fill;
+            filter: brightness(1.5);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 500;
+            padding: 0.5rem 0;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--accent);
+        }
+
+        .nav-link.active {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .hamburger-checkbox {
+            display: none;
+        }
+
+        .hamburger-icon {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 21px;
+            cursor: pointer;
+        }
+
+        .hamburger-icon span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background-color: var(--white);
+            border-radius: 3px;
+        }
+
+        /* PASSWORD PROTECTION OVERLAY */
+        .password-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .password-container {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid var(--accent);
+            border-radius: 12px;
+            padding: 3rem;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 0 40px rgba(0, 229, 255, 0.2);
+        }
+
+        .password-title {
+            font-size: 1.8rem;
+            color: var(--white);
+            margin-bottom: 1rem;
+        }
+
+        .password-subtitle {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 2rem;
+            font-size: 1rem;
+        }
+
+        .password-input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .password-input {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: var(--white);
+            font-size: 1.1rem;
+            text-align: center;
+            letter-spacing: 3px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .password-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.3);
+        }
+
+        .password-button {
+            background: var(--accent);
+            color: var(--black);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+        }
+
+        .password-button:hover {
+            background: rgba(0, 229, 255, 0.8);
+            transform: translateY(-2px);
+        }
+
+        .password-error {
+            color: #ff4444;
+            margin-top: 1rem;
+            display: none;
+            font-size: 0.9rem;
+        }
+
+        .password-success {
+            color: #00ff00;
+            margin-top: 1rem;
+            display: none;
+            font-size: 0.9rem;
+        }
+
+        .projects-content {
+            display: none;
+        }
+
+        /* MAIN CONTENT */
+        .main-content {
+            padding: 120px 5% 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            min-height: calc(100vh - 200px);
+            display: none;
+        }
+
+        /* Page Header */
+        .page-header {
+            margin-bottom: 4rem;
+            text-align: center;
+        }
+
+        .page-title {
+            font-size: clamp(3rem, 5vw, 4rem);
+            font-weight: 800;
+            color: var(--white);
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+        }
+
+        .page-subtitle {
+            font-size: clamp(1.2rem, 2vw, 1.5rem);
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 400;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* PROJECTS CONTAINER */
+        .projects-container {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* PROJECT ROW - Updated for Minor Projects */
+        .project-row {
+            display: flex;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: var(--transition);
+            min-height: 280px;
+        }
+
+        .project-row:hover {
+            border-color: var(--accent);
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 229, 255, 0.1);
+        }
+
+        /* LOGOS COLUMN (LEFT) */
+        .logos-column {
+            flex: 0 0 280px;
+            padding: 2.5rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2.5rem;
+        }
+
+        /* LOGO GROUP */
+        .logo-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            width: 100%;
+        }
+
+        .logo-pair {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            position: relative;
+        }
+
+        /* Logo Boxes */
+        .logo-placeholder-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.8rem;
+            width: 110px;
+        }
+
+        .logo-circle {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            transition: var(--transition);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .project-row:hover .logo-circle {
+            border-color: var(--accent);
+            transform: scale(1.05);
+        }
+
+        .logo-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: fill;
+            filter: brightness(1.5);
+        }
+
+        .logo-label {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7);
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+
+        /* CONNECTOR LINE */
+        .connector {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* CONTENT COLUMN (RIGHT) */
+        .content-column {
+            flex: 1;
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .project-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .project-title {
+            font-size: 1.8rem;
+            color: var(--white);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .client-name {
+            display: inline-block;
+            color: var(--white);
+            font-weight: 500;
+            padding: 0.4rem 1.2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .project-description {
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        /* PROJECT META */
+        .project-meta {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .meta-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .meta-label {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.5);
+            letter-spacing: 0.5px;
+        }
+
+        .meta-value {
+            font-size: 1rem;
+            color: var(--white);
+            font-weight: 500;
+        }
+
+        /* STATUS BADGE */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .status-completed {
+            background: rgba(0, 255, 0, 0.1);
+            color: #00ff00;
+            border: 1px solid rgba(0, 255, 0, 0.2);
+        }
+
+        .status-inprogress {
+            background: rgba(255, 193, 7, 0.1);
+            color: #ffc107;
+            border: 1px solid rgba(255, 193, 7, 0.2);
+        }
+
+        /* TECHNOLOGY TAGS */
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .tech-tag {
+            padding: 0.35rem 0.9rem;
+            background: rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 0.7);
+            border-radius: 6px;
+            font-size: 0.85rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+        }
+
+        .project-row:hover .tech-tag {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            padding: 3rem 5%;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+            line-height: 1.8;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 4rem;
+        }
+
+        /* RESPONSIVE DESIGN (From experience.html) */
+        @media (max-width: 1024px) {
+            .logos-column {
+                flex: 0 0 240px;
+                padding: 2rem;
+            }
+            
+            .logo-circle {
+                width: 75px;
+                height: 75px;
+            }
+            
+            .logo-placeholder-box {
+                width: 90px;
+            }
+            
+            .connector {
+                width: 40px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .project-row {
+                flex-direction: column;
+                min-height: auto;
+            }
+            
+            .logos-column {
+                flex: 0 0 auto;
+                border-right: none;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+                padding: 2rem;
+                width: 100%;
+            }
+            
+            .logo-pair {
+                justify-content: space-around;
+                max-width: 400px;
+                margin: 0 auto;
+            }
+            
+            .connector {
+                width: 40px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            /* Navigation Responsive */
+            .hamburger-icon {
+                display: flex;
+            }
+            
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 80%;
+                max-width: 300px;
+                height: 100vh;
+                background: rgba(0, 0, 0, 0.95);
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 100px 2rem 2rem;
+                gap: 1.5rem;
+                transition: right 0.3s ease;
+            }
+            
+            .hamburger-checkbox:checked ~ .nav-menu {
+                right: 0;
+            }
+            
+            /* Main Content Responsive */
+            .main-content {
+                padding: 100px 5% 2rem;
+            }
+            
+            .page-title {
+                font-size: 2.5rem;
+            }
+            
+            .page-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .logos-column {
+                padding: 1.5rem;
+            }
+            
+            .content-column {
+                padding: 1.5rem;
+            }
+            
+            .logo-circle {
+                width: 65px;
+                height: 65px;
+            }
+
+            /* Password Overlay Responsive */
+            .password-container {
+                padding: 2rem;
+                margin: 1rem;
+            }
+            
+            .password-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            /* Navigation Responsive */
+            .nav-banner {
+                height: 70px;
+                padding: 0.6rem 3%;
+            }
+            
+            .main-content {
+                padding-top: 100px;
+            }
+            
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .page-subtitle {
+                font-size: 1rem;
+            }
+            
+            .logo-pair {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            
+            .connector {
+                display: none;
+            }
+            
+            .logo-circle {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .project-title {
+                font-size: 1.2rem;
+            }
+            
+            .project-description {
+                font-size: 0.85rem;
+            }
+            
+            .project-meta {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .password-container {
+                padding: 1.5rem;
+            }
+            
+            .password-title {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Password Protection Overlay -->
+    <div class="password-overlay" id="passwordOverlay">
+        <div class="password-container">
+            <h2 class="password-title">🔐 Project Vault</h2>
+            <p class="password-subtitle">Enter access key to view detailed project information</p>
+            <div class="password-input-group">
+                <input type="password" 
+                       class="password-input" 
+                       id="passwordInput" 
+                       placeholder="Enter 4-character key"
+                       maxlength="4"
+                       autocomplete="off">
+            </div>
+            <button class="password-button" id="passwordButton">Unlock Projects</button>
+            <div class="password-error" id="passwordError">
+                ✗ Invalid access key. Please try again.
+            </div>
+            <div class="password-success" id="passwordSuccess">
+                ✓ Access granted! Loading projects...
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================================================
+         ORIGINAL NAV BAR - TRANSPARENT (From experience.html)
+         =================================================== -->
+    <nav class="nav-banner">
+        <a href="index.html" class="logo-link">
+            <div class="logo-container">
+                <img src="/assets/images/logo/MERC_black.jpg" alt="Mercutio Levi Logo" class="logo-image">
+            </div>
+        </a>
+        
+        <input type="checkbox" id="hamburger-toggle" class="hamburger-checkbox">
+        <label for="hamburger-toggle" class="hamburger-icon" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </label>
+        
+        <div class="nav-menu">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="education.html" class="nav-link">Education</a>
+            <a href="experience.html" class="nav-link">Experience</a>
+            <a href="projects-lock.html" class="nav-link active">Projects</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Main Content (Hidden until password is entered) -->
+    <main class="main-content" id="mainContent">
+        <!-- Page Header -->
+        <header class="page-header">
+            <h1 class="page-title">Minor Projects</h1>
+            <p class="page-subtitle">Educational, volunteer, and freelance work showcasing diverse skills</p>
+        </header>
+
+        <!-- Projects Container -->
+        <div class="projects-container">
+            <!-- Project 1: ICT at Sprout Preschool -->
+            <article class="project-row">
+                <div class="logos-column">
+                    <div class="logo-group">
+                        <div class="logo-pair">
+                            <div class="logo-placeholder-box">
+                                <div class="logo-circle">
+                                    <img src="/assets/images/logo/MERC_black.jpg" alt="Mercutio Levi">
+                                </div>
+                                <span class="logo-label">Mercutio Levi</span>
+                            </div>
+                            
+                            <div class="connector"></div>
+                            
+                            <div class="logo-placeholder-box">
+                                <div class="logo-circle">
+                                    <img src="/assets/images/logo/Sprout Logo.jpg" alt="Sprout Preschool">
+                                </div>
+                                <span class="logo-label">Sprout Preschool</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content-column">
+                    <div class="project-header">
+                        <h3 class="project-title">ICT Education Program</h3>
+                        <span class="client-name">Sprout Myanmar Preschool</span>
+                        <p class="project-description">
+                            Developed and implemented a basic ICT curriculum for preschool students, introducing digital literacy through age-appropriate activities. Created engaging learning materials and supervised technology-based learning sessions.
+                        </p>
+                    </div>
+                    
+                    <div class="project-meta">
+                        <div class="meta-group">
+                            <span class="meta-label">Duration</span>
+                            <span class="meta-value">2022 – Present</span>
+                        </div>
+                        <div class="meta-group">
+                            <span class="meta-label">Status</span>
+                            <span class="status-badge status-inprogress">Ongoing</span>
+                        </div>
+                        <div class="meta-group">
+                            <span class="meta-label">Role</span>
+                            <span class="meta-value">ICT Teacher/Volunteer</span>
+                        </div>
+                    </div>
+                    
+                    <div class="tech-tags">
+                        <span class="tech-tag">Education Technology</span>
+                        <span class="tech-tag">Curriculum Development</span>
+                        <span class="tech-tag">Digital Literacy</span>
+                        <span class="tech-tag">Child Education</span>
+                        <span class="tech-tag">Interactive Learning</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Project 2: RIC Peer Mentoring -->
+            <article class="project-row">
+                <div class="logos-column">
+                    <div class="logo-group">
+                        <div class="logo-pair">
+                            <div class="logo-placeholder-box">
+                                <div class="logo-circle">
+                                    <img src="/assets/images/logo/MERC_black.jpg" alt="Mercutio Levi">
+                                </div>
+                                <span class="logo-label">Mercutio Levi</span>
+                            </div>
+                            
+                            <div class="connector"></div>
+                            
+                            <div class="logo-placeholder-box">
+                                <div class="logo-circle">
+                                    <img src="/assets/images/logo/RIC_logo.jpeg" alt="Rangsit International College">
+                                </div>
+                                <span class="logo-label">Rangsit Int'l College</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content-column">
+                    <div class="project-header">
+                        <h3 class="project-title">English Language Mentorship Program</h3>
+                        <span class="client-name">Rangsit International College</span>
+                        <p class="project-description">
+                            Provided one-on-one English language assistance to Thai students, focusing on conversation skills, pronunciation, and academic English. Developed customized learning materials and facilitated cultural exchange between international and local students.
+                        </p>
+                    </div>
+                    
+                    <div class="project-meta">
+                        <div class="meta-group">
+                            <span class="meta-label">Duration</span>
+                            <span class="meta-value">Jun 2024 – Aug 2024</span>
+                        </div>
+                        <div class="meta-group">
+                            <span class="meta-label">Status</span>
+                            <span class="status-badge status-completed">Completed</span>
+                        </div>
+                        <div class="meta-group">
+                            <span class="meta-label">Role</span>
+                            <span class="meta-value">Peer Mentor</span>
+                        </div>
+                    </div>
+                    
+                    <div class="tech-tags">
+                        <span class="tech-tag">Language Teaching</span>
+                        <span class="tech-tag">Cross-Cultural Communication</span>
+                        <span class="tech-tag">Education</span>
+                        <span class="tech-tag">Mentoring</span>
+                        <span class="tech-tag">Communication Skills</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Project 3: Sky High Cannabis Business Analysis -->
+            <article class="project-row">
+                <div class="logos-column">
+                    <div class="logo-group">
+                        <div class="logo-pair">
+                            <div class="logo-placeholder-box">
+                                <div class="logo-circle">
+                                    <img src="/assets/images/logo/MERC_black.jpg" alt="Mercutio Levi">
+                                </div>
+                                <span class="logo-label">Mercutio Levi</span>
+                            </div>
+                            
+                            <div class="connector"></div>
+                            
+                            <div class="logo-placeholder-box">
+                                <div class="logo-circle">
+                                    <img src="/assets/images/logo/Sky_HIgh.JPG" alt="Sky High Cannabis">
+                                </div>
+                                <span class="logo-label">Sky High Cannabis</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content-column">
+                    <div class="project-header">
+                        <h3 class="project-title">Retail Business Analysis & Campaign Design</h3>
+                        <span class="client-name">Sky High Cannabis Shop</span>
+                        <p class="project-description">
+                            Conducted comprehensive customer behavior analysis and designed a data-driven Halloween promotional campaign. Developed marketing strategies based on consumer insights, resulting in increased engagement and sales during the campaign period.
+                        </p>
+                    </div>
+                    
+                    <div class="project-meta">
+                        <div class="meta-group">
+                            <span class="meta-label">Duration</span>
+                            <span class="meta-value">Oct 2025 – Nov 2025</span>
+                        </div>
+                        <div class="meta-group">
+                            <span class="meta-label">Status</span>
+                            <span class="status-badge status-completed">Completed</span>
+                        </div>
+                        <div class="meta-group">
+                            <span class="meta-label">Role</span>
+                            <span class="meta-value">Business Analyst (Freelance)</span>
+                        </div>
+                    </div>
+                    
+                    <div class="tech-tags">
+                        <span class="tech-tag">Business Analysis</span>
+                        <span class="tech-tag">Data Analysis</span>
+                        <span class="tech-tag">Marketing Strategy</span>
+                        <span class="tech-tag">Customer Behavior</span>
+                        <span class="tech-tag">Campaign Design</span>
+                        <span class="tech-tag">Retail Analytics</span>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </main>
+
+    <footer class="footer" id="footer">
+        <p>© 2020 Mercutio Levi. All rights reserved.</p>
+        <p>Designed to showcase skills for scholarships & career opportunities</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburgerCheckbox = document.getElementById('hamburger-toggle');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    if (window.innerWidth <= 768) {
+                        hamburgerCheckbox.checked = false;
+                    }
+                });
+            });
+
+            const passwordOverlay = document.getElementById('passwordOverlay');
+            const passwordInput = document.getElementById('passwordInput');
+            const passwordButton = document.getElementById('passwordButton');
+            const passwordError = document.getElementById('passwordError');
+            const passwordSuccess = document.getElementById('passwordSuccess');
+            const mainContent = document.getElementById('mainContent');
+            const footer = document.getElementById('footer');
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const accessKey = urlParams.get('key');
+            
+            const CORRECT_PASSWORD = "MERC";
+            
+            if (accessKey === CORRECT_PASSWORD) {
+                grantAccess();
+            } else {
+                passwordOverlay.style.display = 'flex';
+                mainContent.style.display = 'none';
+                footer.style.display = 'none';
+            }
+
+            passwordButton.addEventListener('click', checkPassword);
+            
+            passwordInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    checkPassword();
+                }
+            });
+
+            passwordInput.focus();
+
+            function checkPassword() {
+                const input = passwordInput.value.trim().toUpperCase();
+                
+                if (input === '') {
+                    passwordError.textContent = 'Please enter an access key';
+                    passwordError.style.display = 'block';
+                    passwordSuccess.style.display = 'none';
+                    return;
+                }
+                
+                if (input === CORRECT_PASSWORD) {
+                    passwordError.style.display = 'none';
+                    passwordSuccess.style.display = 'block';
+                    passwordButton.disabled = true;
+                    passwordInput.disabled = true;
+                    
+                    sessionStorage.setItem('projectsAuthenticated', 'true');
+                    
+                    setTimeout(grantAccess, 800);
+                } else {
+                    passwordError.style.display = 'block';
+                    passwordSuccess.style.display = 'none';
+                    passwordInput.value = '';
+                    passwordInput.focus();
+                    
+                    passwordOverlay.style.animation = 'none';
+                    setTimeout(() => {
+                        passwordOverlay.style.animation = 'shake 0.5s';
+                    }, 10);
+                }
+            }
+
+            function grantAccess() {
+                passwordOverlay.style.display = 'none';
+                
+                mainContent.style.display = 'block';
+                footer.style.display = 'block';
+                
+                mainContent.style.opacity = '0';
+                mainContent.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    mainContent.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    mainContent.style.opacity = '1';
+                    mainContent.style.transform = 'translateY(0)';
+                }, 100);
+            }
+
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes shake {
+                    0%, 100% { transform: translateX(0); }
+                    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+                    20%, 40%, 60%, 80% { transform: translateX(5px); }
+                }
+            `;
+            document.head.appendChild(style);
+
+            if (sessionStorage.getItem('projectsAuthenticated') === 'true') {
+                grantAccess();
+            }
+        });
+    </script>
+</body>
+</html>

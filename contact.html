@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | Mercutio Levi</title>
+    <style>
+        :root {
+            --black: #000000;
+            --white: #ffffff;
+            --accent: #00e5ff;
+            --transition: all 0.3s ease;
+        }
+
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--black);
+            color: var(--white);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ===================================================
+           ORIGINAL NAV BAR - TRANSPARENT (From experience.html)
+           =================================================== */
+        .nav-banner {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: transparent;
+            z-index: 1000;
+            padding: 0.8rem 5%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 3rem;
+            height: 80px;
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .logo-link {
+            text-decoration: none;
+            display: block;
+            width: 80px;
+            height: 45px;
+        }
+
+        .logo-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: brightness(1.5);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 500;
+            padding: 0.5rem 0;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--accent);
+        }
+
+        .nav-link.active {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .hamburger-checkbox {
+            display: none;
+        }
+
+        .hamburger-icon {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 21px;
+            cursor: pointer;
+        }
+
+        .hamburger-icon span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background-color: var(--white);
+            border-radius: 3px;
+        }
+
+        /* MAIN CONTENT */
+        .main-content {
+            padding: 120px 5% 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            min-height: calc(100vh - 200px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Page Header */
+        .page-header {
+            margin-bottom: 4rem;
+            text-align: center;
+            width: 100%;
+        }
+
+        .page-title {
+            font-size: clamp(3rem, 5vw, 4rem);
+            font-weight: 800;
+            color: var(--white);
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+        }
+
+        .page-subtitle {
+            font-size: clamp(1.2rem, 2vw, 1.5rem);
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 400;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Contact Grid */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Contact Card */
+        .contact-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 2.5rem;
+            text-align: center;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            height: 100%;
+        }
+
+        .contact-card:hover {
+            border-color: var(--accent);
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 229, 255, 0.1);
+        }
+
+        /* Contact Icon - Platform logos */
+        .contact-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+        }
+
+        .contact-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        /* Platform-specific background colors */
+        .email-icon {
+            background: linear-gradient(135deg, #EA4335 0%, #D14836 100%);
+        }
+
+        .linkedin-icon {
+            background: linear-gradient(135deg, #0A66C2 0%, #004182 100%);
+        }
+
+        .github-icon {
+            background: linear-gradient(135deg, #333333 0%, #000000 100%);
+        }
+
+        /* Contact Info */
+        .contact-type {
+            font-size: 1.3rem;
+            color: var(--white);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .contact-detail {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.5;
+        }
+
+        /* Contact Link Button */
+        .contact-link {
+            display: inline-block;
+            padding: 0.6rem 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: var(--transition);
+            font-weight: 500;
+            margin-top: auto;
+        }
+
+        .contact-link:hover {
+            background: rgba(0, 229, 255, 0.2);
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        /* Availability Note */
+        .availability-note {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 2rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1rem;
+            max-width: 600px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+        }
+
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            padding: 3rem 5%;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+            line-height: 1.8;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: auto;
+        }
+
+        /* RESPONSIVE DESIGN (From experience.html) */
+        @media (max-width: 768px) {
+            /* Navigation Responsive */
+            .hamburger-icon {
+                display: flex;
+            }
+            
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 80%;
+                max-width: 300px;
+                height: 100vh;
+                background: rgba(0, 0, 0, 0.95);
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 100px 2rem 2rem;
+                gap: 1.5rem;
+                transition: right 0.3s ease;
+            }
+            
+            .hamburger-checkbox:checked ~ .nav-menu {
+                right: 0;
+            }
+            
+            /* Main Content Responsive */
+            .main-content {
+                padding: 100px 5% 2rem;
+            }
+            
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                max-width: 400px;
+            }
+            
+            .contact-icon {
+                width: 70px;
+                height: 70px;
+                padding: 12px;
+            }
+            
+            .availability-note {
+                padding: 1.5rem;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            /* Navigation Responsive */
+            .nav-banner {
+                height: 70px;
+                padding: 0.6rem 3%;
+            }
+            
+            .main-content {
+                padding-top: 100px;
+            }
+            
+            .contact-icon {
+                width: 60px;
+                height: 60px;
+                padding: 10px;
+            }
+            
+            .contact-type {
+                font-size: 1.1rem;
+            }
+            
+            .contact-detail {
+                font-size: 1rem;
+            }
+            
+            .contact-link {
+                padding: 0.5rem 1.2rem;
+                font-size: 0.9rem;
+            }
+            
+            .availability-note {
+                font-size: 0.95rem;
+                padding: 1rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .contact-grid {
+                gap: 1rem;
+            }
+            
+            .contact-card {
+                padding: 1.2rem;
+            }
+            
+            .contact-icon {
+                width: 55px;
+                height: 55px;
+                padding: 8px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <nav class="nav-banner">
+        <a href="index.html" class="logo-link">
+            <div class="logo-container">
+                <img src="/assets/images/logo/MERC_black.jpg" alt="Mercutio Levi Logo" class="logo-image">
+            </div>
+        </a>
+        
+        <input type="checkbox" id="hamburger-toggle" class="hamburger-checkbox">
+        <label for="hamburger-toggle" class="hamburger-icon" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </label>
+        
+        <div class="nav-menu">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="education.html" class="nav-link">Education</a>
+            <a href="experience.html" class="nav-link">Experience</a>
+            <a href="projects-lock.html" class="nav-link">Projects</a>
+            <a href="contact.html" class="nav-link active">Contact</a>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <header class="page-header">
+            <h1 class="page-title">Get In Touch</h1>
+            <p class="page-subtitle">Connect with me through these channels</p>
+        </header>
+
+        <section class="contact-grid">
+            <div class="contact-card">
+                <div class="contact-icon email-icon">
+                    <img src="/assets/images/logo/email_logo.png" 
+                         alt="Email" >
+                </div>
+                <h3 class="contact-type">Email</h3>
+                <p class="contact-detail">mercutiolevi.bkk@gmail.com</p>
+                <a href="mailto:mercutiolevi.bkk@gmail.com" class="contact-link">Send Email</a>
+            </div>
+
+            <div class="contact-card">
+                <div class="contact-icon linkedin-icon">
+                    <img src="/assets/images/logo/Linkdin_logo.jpg" 
+                         alt="LinkedIn">
+                </div>
+                <h3 class="contact-type">LinkedIn</h3>
+                <p class="contact-detail">Connect professionally</p>
+                <a href="https://www.linkedin.com/in/mercutio-levi-556a5a379/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BbwIHY0Z8SEuGzBoj5SydXg%3D%3D" target="_blank" class="contact-link">View Profile</a>
+            </div>
+
+            <div class="contact-card">
+                <div class="contact-icon github-icon">
+                    <img src="/assets/images/logo/GIthub.jpg" 
+                         alt="GitHub">
+                </div>
+                <h3 class="contact-type">GitHub</h3>
+                <p class="contact-detail">Check out my projects</p>
+                <a href="https://github.com/mercutio-levi" target="_blank" class="contact-link">View Repositories</a>
+            </div>
+        </section>
+
+        <div class="availability-note">
+            <p>I typically respond within 24 hours. Looking forward to connecting with you!</p>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>© 2020 Mercutio Levi. All rights reserved.</p>
+        <p>Designed to showcase skills for scholarships & career opportunities</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburgerCheckbox = document.getElementById('hamburger-toggle');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    if (window.innerWidth <= 768) {
+                        hamburgerCheckbox.checked = false;
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Experience | Mercutio Levi</title>
+    <style>
+        :root {
+            --black: #000000;
+            --white: #ffffff;
+            --accent: #00e5ff;
+        }
+
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--black);
+            color: var(--white);
+            min-height: 100vh;
+        }
+
+        .nav-banner {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: transparent;
+            z-index: 1000;
+            padding: 0.8rem 5%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 3rem;
+            height: 80px;
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .logo-link {
+            text-decoration: none;
+            display: block;
+            width: 80px;
+            height: 45px;
+        }
+
+        .logo-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: brightness(1.5);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 500;
+            padding: 0.5rem 0;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--accent);
+        }
+
+        .nav-link.active {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .hamburger-checkbox {
+            display: none;
+        }
+
+        .hamburger-icon {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 21px;
+            cursor: pointer;
+        }
+
+        .hamburger-icon span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background-color: var(--white);
+            border-radius: 3px;
+        }
+
+        .main-content {
+            padding-top: 80px;
+            min-height: calc(100vh - 80px);
+        }
+
+
+        .solar-container {
+            position: relative;
+            width: 100%;
+            height: 70vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            background: radial-gradient(ellipse at center, 
+                rgba(10, 10, 30, 0.8) 0%,
+                rgba(5, 5, 15, 0.9) 70%,
+                rgba(0, 0, 0, 1) 100%);
+        }
+
+        .solar-system {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .sun {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 150;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .sun:hover {
+            border-color: var(--accent);
+            transform: translate(-50%, -50%) scale(1.05);
+        }
+
+        .sun-logo {
+            width: 100%;
+            height: 100%;
+            object-fit: fill;
+            border-radius: 50%;
+        }
+
+        .orbit-path {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            border-radius: 50%;
+            border: none;
+            transform: translate(-50%, -50%);
+            z-index: 101;
+        }
+
+        .orbit-right {
+            border: 1px solid rgba(0, 229, 255, 0.15);
+        }
+
+        .orbit-left {
+            border: 1px solid rgba(255, 64, 129, 0.15);
+        }
+
+        .orbit-1 { width: 340px; height: 120px; transform: translate(-50%, -50%) rotate(30deg) rotateX(5deg); }
+        .orbit-2 { width: 450px; height: 150px; transform: translate(-50%, -50%) rotate(30deg) rotateX(10deg); }
+        .orbit-3 { width: 560px; height: 180px; transform: translate(-50%, -50%) rotate(30deg) rotateX(15deg); }
+        .orbit-4 { width: 340px; height: 120px; transform: translate(-50%, -50%) rotate(-30deg) rotateX(5deg); }
+        .orbit-5 { width: 450px; height: 150px; transform: translate(-50%, -50%) rotate(-30deg) rotateX(10deg); }
+        .orbit-6 { width: 560px; height: 180px; transform: translate(-50%, -50%) rotate(-30deg) rotateX(15deg); }
+
+        .planet {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            border-radius: 50%;
+            overflow: hidden;
+            z-index: 102;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .planet:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+            border-color: currentColor;
+        }
+
+        .planet.active {
+            border-color: currentColor;
+            box-shadow: 0 0 20px currentColor;
+        }
+
+        .planet-1 { transform: translate(-50%, -50%) rotateX(7deg); }
+        .planet-2 { transform: translate(-50%, -50%) rotateX(23deg); }
+        .planet-3 { transform: translate(-50%, -50%) rotateX(0deg); }
+        .planet-4 { transform: translate(-50%, -50%) rotateX(25deg); }
+        .planet-5 { transform: translate(-50%, -50%) rotateX(3deg); }
+        .planet-6 { transform: translate(-50%, -50%) rotateX(27deg); }
+
+        .planet-1, .planet-2, .planet-3 { width: 65px; height: 65px; }
+        .planet-4, .planet-5, .planet-6 { width: 50px; height: 50px; }
+
+        .planet-1 { 
+            background: rgba(74, 144, 226, 0.2);
+            border-color: rgba(74, 144, 226, 0.5);
+        }
+
+        .planet-2 { 
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .planet-3 { 
+            background: rgba(0, 200, 83, 0.2);
+            border-color: rgba(0, 230, 118, 0.5);
+        }
+
+        .planet-4 { 
+            background: rgba(255, 82, 82, 0.2);
+            border-color: rgba(255, 64, 129, 0.5);
+        }
+
+        .planet-5 { 
+            background: rgba(255, 171, 64, 0.2);
+            border-color: rgba(255, 171, 64, 0.5);
+        }
+
+        .planet-6 { 
+            background: rgba(255, 215, 64, 0.2);
+            border-color: rgba(255, 215, 64, 0.5);
+        }
+
+        .planet-img {
+            width: 100%;
+            height: 100%;
+            object-fit: fill;
+            border-radius: 50%;
+            animation: planet-rotation 30s linear infinite;
+        }
+
+        @keyframes planet-rotation {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .planet-1 .planet-img { animation-duration: 25s; }
+        .planet-2 .planet-img { animation-duration: 35s; }
+        .planet-3 .planet-img { animation-duration: 28s; }
+        .planet-4 .planet-img { animation-duration: 32s; }
+        .planet-5 .planet-img { animation-duration: 40s; }
+        .planet-6 .planet-img { animation-duration: 45s; }
+
+        .planet::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: radial-gradient(circle at 70% 30%, 
+                transparent 30%, 
+                rgba(0, 0, 0, 0.3) 100%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .planet-6::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100px;
+            height: 100px;
+            border: 2px solid transparent;
+            background: linear-gradient(90deg, 
+                transparent 0%,
+                rgba(255, 215, 64, 0.2) 20%,
+                rgba(255, 215, 64, 0.3) 50%,
+                rgba(255, 215, 64, 0.2) 80%,
+                transparent 100%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%) rotateX(75deg) rotate(15deg);
+            z-index: -1;
+            animation: ring-rotation 40s linear infinite;
+        }
+
+        @keyframes ring-rotation {
+            0% { transform: translate(-50%, -50%) rotateX(75deg) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotateX(75deg) rotate(360deg); }
+        }
+
+        .planet-3::after {
+            content: '';
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            width: 15px;
+            height: 15px;
+            background: radial-gradient(circle at 30% 30%, 
+                #cccccc 0%,
+                #aaaaaa 100%);
+            border-radius: 50%;
+            z-index: 2;
+        }
+
+        @keyframes orbit-right-1 {
+            0% { transform: translate(-50%, -50%) rotateX(7deg) rotate(0deg) translateX(170px) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotateX(7deg) rotate(360deg) translateX(170px) rotate(-360deg); }
+        }
+
+        @keyframes orbit-right-2 {
+            0% { transform: translate(-50%, -50%) rotateX(23deg) rotate(120deg) translateX(225px) rotate(-120deg); }
+            100% { transform: translate(-50%, -50%) rotateX(23deg) rotate(480deg) translateX(225px) rotate(-480deg); }
+        }
+
+        @keyframes orbit-right-3 {
+            0% { transform: translate(-50%, -50%) rotateX(0deg) rotate(240deg) translateX(280px) rotate(-240deg); }
+            100% { transform: translate(-50%, -50%) rotateX(0deg) rotate(600deg) translateX(280px) rotate(-600deg); }
+        }
+
+        @keyframes orbit-left-1 {
+            0% { transform: translate(-50%, -50%) rotateX(25deg) rotate(180deg) translateX(170px) rotate(-180deg); }
+            100% { transform: translate(-50%, -50%) rotateX(25deg) rotate(540deg) translateX(170px) rotate(-540deg); }
+        }
+
+        @keyframes orbit-left-2 {
+            0% { transform: translate(-50%, -50%) rotateX(3deg) rotate(300deg) translateX(225px) rotate(-300deg); }
+            100% { transform: translate(-50%, -50%) rotateX(3deg) rotate(660deg) translateX(225px) rotate(-660deg); }
+        }
+
+        @keyframes orbit-left-3 {
+            0% { transform: translate(-50%, -50%) rotateX(27deg) rotate(60deg) translateX(280px) rotate(-60deg); }
+            100% { transform: translate(-50%, -50%) rotateX(27deg) rotate(420deg) translateX(280px) rotate(-420deg); }
+        }
+
+        .planet-1 { animation: orbit-right-1 16s linear infinite; }
+        .planet-2 { animation: orbit-right-2 20s linear infinite; }
+        .planet-3 { animation: orbit-right-3 24s linear infinite; }
+        .planet-4 { animation: orbit-left-1 18s linear infinite; }
+        .planet-5 { animation: orbit-left-2 22s linear infinite; }
+        .planet-6 { animation: orbit-left-3 26s linear infinite; }
+
+        .experience-details {
+            padding: 2rem 5%;
+            background: rgba(15, 25, 35, 0.9);
+        }
+
+        .experience-item {
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border-left: 4px solid var(--accent);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .experience-item.active {
+            background: rgba(0, 229, 255, 0.1);
+            box-shadow: 0 0 30px rgba(0, 229, 255, 0.2);
+        }
+
+        .experience-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .company-header {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .company-logo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid var(--accent);
+            flex-shrink: 0;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .company-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: fill;
+        }
+
+        .company-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: var(--white);
+        }
+
+        .company-info .role {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .role-data-scientist { color: rgba(255, 255, 255, 0.9); }
+        .role-lead-technician { color: rgba(74, 144, 226, 0.9); }
+        .role-media-producer { color: rgba(255, 64, 129, 0.9); }
+        .role-demi-chef { color: rgba(255, 171, 64, 0.9); }
+        .role-ict-teacher { color: rgba(0, 230, 118, 0.9); }
+        .role-language-mentor { color: rgba(255, 215, 64, 0.9); }
+        .role-business-analyst { color: rgba(255, 171, 64, 0.9); }
+
+        .company-info .duration {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .company-info .location {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 1rem;
+            font-style: italic;
+        }
+
+        .responsibilities {
+            list-style: none;
+            padding: 0;
+        }
+
+        .responsibilities li {
+            margin-bottom: 0.8rem;
+            padding-left: 1.5rem;
+            position: relative;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .responsibilities li:before {
+            content: "▶";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        @media (max-width: 1024px) {
+            .orbit-1 { width: 300px; height: 105px; }
+            .orbit-2 { width: 400px; height: 130px; }
+            .orbit-3 { width: 500px; height: 155px; }
+            .orbit-4 { width: 300px; height: 105px; }
+            .orbit-5 { width: 400px; height: 130px; }
+            .orbit-6 { width: 500px; height: 155px; }
+            
+            .planet-1, .planet-2, .planet-3 { width: 55px; height: 55px; }
+            .planet-4, .planet-5, .planet-6 { width: 42px; height: 42px; }
+            
+            .sun { width: 120px; height: 120px; }
+            
+            @keyframes orbit-right-1 {
+                0% { transform: translate(-50%, -50%) rotateX(7deg) rotate(0deg) translateX(150px) rotate(0deg); }
+                100% { transform: translate(-50%, -50%) rotateX(7deg) rotate(360deg) translateX(150px) rotate(-360deg); }
+            }
+            @keyframes orbit-right-2 {
+                0% { transform: translate(-50%, -50%) rotateX(23deg) rotate(120deg) translateX(200px) rotate(-120deg); }
+                100% { transform: translate(-50%, -50%) rotateX(23deg) rotate(480deg) translateX(200px) rotate(-480deg); }
+            }
+            @keyframes orbit-right-3 {
+                0% { transform: translate(-50%, -50%) rotateX(0deg) rotate(240deg) translateX(250px) rotate(-240deg); }
+                100% { transform: translate(-50%, -50%) rotateX(0deg) rotate(600deg) translateX(250px) rotate(-600deg); }
+            }
+            @keyframes orbit-left-1 {
+                0% { transform: translate(-50%, -50%) rotateX(25deg) rotate(180deg) translateX(150px) rotate(-180deg); }
+                100% { transform: translate(-50%, -50%) rotateX(25deg) rotate(540deg) translateX(150px) rotate(-540deg); }
+            }
+            @keyframes orbit-left-2 {
+                0% { transform: translate(-50%, -50%) rotateX(3deg) rotate(300deg) translateX(200px) rotate(-300deg); }
+                100% { transform: translate(-50%, -50%) rotateX(3deg) rotate(660deg) translateX(200px) rotate(-660deg); }
+            }
+            @keyframes orbit-left-3 {
+                0% { transform: translate(-50%, -50%) rotateX(27deg) rotate(60deg) translateX(250px) rotate(-60deg); }
+                100% { transform: translate(-50%, -50%) rotateX(27deg) rotate(420deg) translateX(250px) rotate(-420deg); }
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hamburger-icon {
+                display: flex;
+            }
+            
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 80%;
+                max-width: 300px;
+                height: 100vh;
+                background: rgba(0, 0, 0, 0.95);
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 100px 2rem 2rem;
+                gap: 1.5rem;
+                transition: right 0.3s ease;
+            }
+            
+            .hamburger-checkbox:checked ~ .nav-menu {
+                right: 0;
+            }
+            
+            .solar-container {
+                height: 50vh;
+            }
+            
+            .orbit-1 { width: 240px; height: 85px; }
+            .orbit-2 { width: 320px; height: 105px; }
+            .orbit-3 { width: 400px; height: 125px; }
+            .orbit-4 { width: 240px; height: 85px; }
+            .orbit-5 { width: 320px; height: 105px; }
+            .orbit-6 { width: 400px; height: 125px; }
+            
+            .planet-1, .planet-2, .planet-3 { width: 45px; height: 45px; }
+            .planet-4, .planet-5, .planet-6 { width: 35px; height: 35px; }
+            
+            .sun { width: 90px; height: 90px; }
+            
+            .planet-6::after {
+                width: 80px;
+                height: 80px;
+            }
+            
+            @keyframes orbit-right-1 {
+                0% { transform: translate(-50%, -50%) rotateX(7deg) rotate(0deg) translateX(120px) rotate(0deg); }
+                100% { transform: translate(-50%, -50%) rotateX(7deg) rotate(360deg) translateX(120px) rotate(-360deg); }
+            }
+            @keyframes orbit-right-2 {
+                0% { transform: translate(-50%, -50%) rotateX(23deg) rotate(120deg) translateX(160px) rotate(-120deg); }
+                100% { transform: translate(-50%, -50%) rotateX(23deg) rotate(480deg) translateX(160px) rotate(-480deg); }
+            }
+            @keyframes orbit-right-3 {
+                0% { transform: translate(-50%, -50%) rotateX(0deg) rotate(240deg) translateX(200px) rotate(-240deg); }
+                100% { transform: translate(-50%, -50%) rotateX(0deg) rotate(600deg) translateX(200px) rotate(-600deg); }
+            }
+            @keyframes orbit-left-1 {
+                0% { transform: translate(-50%, -50%) rotateX(25deg) rotate(180deg) translateX(120px) rotate(-180deg); }
+                100% { transform: translate(-50%, -50%) rotateX(25deg) rotate(540deg) translateX(120px) rotate(-540deg); }
+            }
+            @keyframes orbit-left-2 {
+                0% { transform: translate(-50%, -50%) rotateX(3deg) rotate(300deg) translateX(160px) rotate(-300deg); }
+                100% { transform: translate(-50%, -50%) rotateX(3deg) rotate(660deg) translateX(160px) rotate(-660deg); }
+            }
+            @keyframes orbit-left-3 {
+                0% { transform: translate(-50%, -50%) rotateX(27deg) rotate(60deg) translateX(200px) rotate(-60deg); }
+                100% { transform: translate(-50%, -50%) rotateX(27deg) rotate(420deg) translateX(200px) rotate(-420deg); }
+            }
+            
+            .planet-img {
+                animation-duration: 45s;
+            }
+            
+            .company-header {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-banner {
+                height: 70px;
+                padding: 0.6rem 3%;
+            }
+            
+            .main-content {
+                padding-top: 70px;
+            }
+            
+            .solar-container {
+                height: 40vh;
+            }
+            
+            .orbit-1 { width: 200px; height: 70px; }
+            .orbit-2 { width: 260px; height: 85px; }
+            .orbit-3 { width: 320px; height: 100px; }
+            .orbit-4 { width: 200px; height: 70px; }
+            .orbit-5 { width: 260px; height: 85px; }
+            .orbit-6 { width: 320px; height: 100px; }
+            
+            .planet-1, .planet-2, .planet-3 { width: 35px; height: 35px; }
+            .planet-4, .planet-5, .planet-6 { width: 28px; height: 28px; }
+            
+            .sun { width: 70px; height: 70px; }
+            
+            .planet-3::after {
+                width: 10px;
+                height: 10px;
+                top: -10px;
+                right: -10px;
+            }
+            
+            .planet-6::after {
+                width: 60px;
+                height: 60px;
+            }
+            
+            @keyframes orbit-right-1 {
+                0% { transform: translate(-50%, -50%) rotateX(7deg) rotate(0deg) translateX(100px) rotate(0deg); }
+                100% { transform: translate(-50%, -50%) rotateX(7deg) rotate(360deg) translateX(100px) rotate(-360deg); }
+            }
+            @keyframes orbit-right-2 {
+                0% { transform: translate(-50%, -50%) rotateX(23deg) rotate(120deg) translateX(130px) rotate(-120deg); }
+                100% { transform: translate(-50%, -50%) rotateX(23deg) rotate(480deg) translateX(130px) rotate(-480deg); }
+            }
+            @keyframes orbit-right-3 {
+                0% { transform: translate(-50%, -50%) rotateX(0deg) rotate(240deg) translateX(160px) rotate(-240deg); }
+                100% { transform: translate(-50%, -50%) rotateX(0deg) rotate(600deg) translateX(160px) rotate(-600deg); }
+            }
+            @keyframes orbit-left-1 {
+                0% { transform: translate(-50%, -50%) rotateX(25deg) rotate(180deg) translateX(100px) rotate(-180deg); }
+                100% { transform: translate(-50%, -50%) rotateX(25deg) rotate(540deg) translateX(100px) rotate(-540deg); }
+            }
+            @keyframes orbit-left-2 {
+                0% { transform: translate(-50%, -50%) rotateX(3deg) rotate(300deg) translateX(130px) rotate(-300deg); }
+                100% { transform: translate(-50%, -50%) rotateX(3deg) rotate(660deg) translateX(130px) rotate(-660deg); }
+            }
+            @keyframes orbit-left-3 {
+                0% { transform: translate(-50%, -50%) rotateX(27deg) rotate(60deg) translateX(160px) rotate(-60deg); }
+                100% { transform: translate(-50%, -50%) rotateX(27deg) rotate(420deg) translateX(160px) rotate(-420deg); }
+            }
+            
+            .planet-img {
+                animation-duration: 60s;
+            }
+            
+            .experience-item {
+                padding: 1.5rem;
+            }
+            
+            .company-info h3 {
+                font-size: 1.4rem;
+            }
+            
+            .company-info .role {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav-banner">
+        <a href="index.html" class="logo-link">
+            <div class="logo-container">
+                <img src="/assets/images/logo/MERC_black.jpg" alt="Mercutio Levi Logo" class="logo-image">
+            </div>
+        </a>
+        
+        <input type="checkbox" id="hamburger-toggle" class="hamburger-checkbox">
+        <label for="hamburger-toggle" class="hamburger-icon" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </label>
+        
+        <div class="nav-menu">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="education.html" class="nav-link">Education</a>
+            <a href="experience.html" class="nav-link active">Experience</a>
+            <a href="projects-lock.html" class="nav-link">Projects</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <div class="solar-container">
+            <div class="solar-system">
+                <div class="orbit-path orbit-right orbit-1"></div>
+                <div class="orbit-path orbit-right orbit-2"></div>
+                <div class="orbit-path orbit-right orbit-3"></div>
+                <div class="orbit-path orbit-left orbit-4"></div>
+                <div class="orbit-path orbit-left orbit-5"></div>
+                <div class="orbit-path orbit-left orbit-6"></div>
+                
+                <div class="sun">
+                    <img src="/assets/images/logo/MERC_black.jpg" alt="Mercutio Levi" class="sun-logo">
+                </div>
+                
+                <div class="planet planet-1">
+                    <img src="/assets/images/logo/PBC LOGO_Thailand.png" alt="Lead Technician" class="planet-img">
+                </div>
+                
+                <div class="planet planet-2">
+                    <img src="/assets/images/logo/PBC Logo (Yangon).png" alt="Data Scientist" class="planet-img">
+                </div>
+                
+                <div class="planet planet-3">
+                    <img src="/assets/images/logo/Sprout Logo.jpg" alt="ICT Teacher" class="planet-img">
+                </div>
+                
+                <div class="planet planet-4">
+                    <img src="/assets/images/logo/Seasons_Logo.jpg" alt="Media Producer" class="planet-img">
+                </div>
+                
+                <div class="planet planet-5">
+                    <img src="/assets/images/logo/Sky_HIgh.JPG" alt="Business Analyst" class="planet-img">
+                </div>
+                
+                <div class="planet planet-6">
+                    <img src="/assets/images/logo/RIC_logo.jpeg" alt="Peer Mentor" class="planet-img">
+                </div>
+            </div>
+        </div>
+
+        <div class="experience-details">
+            <div class="experience-item" id="experience-1">
+                <div class="company-header">
+                    <div class="company-logo">
+                        <img src="/assets/images/logo/PBC Logo (Yangon).png" alt="Pinlon Church">
+                    </div>
+                    <div class="company-info">
+                        <h3>Pinlon Church</h3>
+                        <p class="role role-data-scientist">Data Scientist</p>
+                        <p class="duration">2024 – Present</p>
+                        <p class="location">Yangon Region, Myanmar · Remote</p>
+                    </div>
+                </div>
+                <ul class="responsibilities">
+                    <li>Analyze data for digital operations and planning</li>
+                    <li>Maintain reports and dashboards</li>
+                    <li>Support technical digital transformation</li>
+                    <li>Improve internal systems and workflow</li>
+                </ul>
+            </div>
+
+            <div class="experience-item" id="experience-2">
+                <div class="company-header">
+                    <div class="company-logo">
+                        <img src="/assets/images/logo/PBC LOGO_Thailand.png" alt="PBC Tec-Team">
+                    </div>
+                    <div class="company-info">
+                        <h3>PBC Tec-Team, Thailand</h3>
+                        <p class="role role-lead-technician">Lead Technician</p>
+                        <p class="duration">2023 – Present</p>
+                        <p class="location">Samut Prakan, Thailand (Hybrid)</p>
+                    </div>
+                </div>
+                <ul class="responsibilities">
+                    <li>Maintain digital platforms</li>
+                    <li>Troubleshoot systems</li>
+                    <li>Develop websites / apps</li>
+                    <li>Support tech operations</li>
+                </ul>
+            </div>
+
+            <div class="experience-item" id="experience-3">
+                <div class="company-header">
+                    <div class="company-logo">
+                        <img src="/assets/images/logo/LOGO png.png" alt="PBC Media Production Team">
+                    </div>
+                    <div class="company-info">
+                        <h3>PBC Media Production Team, Myanmar</h3>
+                        <p class="role role-media-producer">Media Production Crew</p>
+                        <p class="duration">2020 – 2025</p>
+                        <p class="location">Yangon, Myanmar · Hybrid</p>
+                    </div>
+                </div>
+                <ul class="responsibilities">
+                    <li>Lead videography and editing team</li>
+                    <li>Plan & manage live events</li>
+                    <li>Produce storytelling media</li>
+                    <li>Manage sound engineering and digital content</li>
+                </ul>
+            </div>
+
+            <div class="experience-item" id="experience-4">
+                <div class="company-header">
+                    <div class="company-logo">
+                        <img src="/assets/images/logo/Seasons_Logo.jpg" alt="Season Bakery">
+                    </div>
+                    <div class="company-info">
+                        <h3>Season Bakery – CMHL Co., Ltd., Myanmar</h3>
+                        <p class="role role-demi-chef"> Pastry Chef</p>
+                        <p class="duration">2019 – 2020</p>
+                        <p class="location">Myanmar</p>
+                    </div>
+                </div>
+                <ul class="responsibilities">
+                    <li>Bakery operations</li>
+                    <li>Time management & teamwork</li>
+                    <li>Customer service</li>
+                    <li>Fast-paced kitchen experience</li>
+                </ul>
+            </div>
+
+            <div class="experience-item" id="experience-5">
+                <div class="company-header">
+                    <div class="company-logo">
+                        <img src="/assets/images/logo/Sprout Logo.jpg" alt="Sprout Myanmar Preschool">
+                    </div>
+                    <div class="company-info">
+                        <h3>Sprout Myanmar Preschool</h3>
+                        <p class="role role-ict-teacher">ICT Teacher</p>
+                        <p class="duration">2022</p>
+                        <p class="location">Myanmar · Volunteer (Hybrid)</p>
+                    </div>
+                </div>
+                <ul class="responsibilities">
+                    <li>Teach basic computer skills</li>
+                    <li>Support digital learning for children</li>
+                    <li>Assist with school technology setup</li>
+                </ul>
+            </div>
+
+            <div class="experience-item" id="experience-6">
+                <div class="company-header">
+                    <div class="company-logo">
+                        <img src="/assets/images/logo/RIC_logo.jpeg" alt="RIC Global">
+                    </div>
+                    <div class="company-info">
+                        <h3>RIC Global, Thailand</h3>
+                        <p class="role role-language-mentor">Language Peer Mentor</p>
+                        <p class="duration">2024</p>
+                        <p class="location">Rangsit, Pathum Thani, Thailand · Hybrid</p>
+                    </div>
+                </div>
+                <ul class="responsibilities">
+                    <li>Support Thai students with English skills</li>
+                    <li>One-on-one and group assistance</li>
+                </ul>
+            </div>
+
+            <div class="experience-item" id="experience-7">
+                <div class="company-header">
+                    <div class="company-logo">
+                        <img src="/assets/images/logo/Sky_HIgh.JPG" alt="Sky High Cannabis Shop">
+                    </div>
+                    <div class="company-info">
+                        <h3>Sky High Cannabis Shop</h3>
+                        <p class="role role-business-analyst">Business Analyst (Freelance)</p>
+                        <p class="duration">2025</p>
+                        <p class="location">Rangsit, Pathum Thani, Thailand · Hybrid</p>
+                    </div>
+                </div>
+                <ul class="responsibilities">
+                    <li>Customer behavior analysis</li>
+                    <li>Designed Halloween campaign</li>
+                    <li>Increased engagement & sales</li>
+                    <li>Data-driven marketing insights</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburgerCheckbox = document.getElementById('hamburger-toggle');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    if (window.innerWidth <= 768) {
+                        hamburgerCheckbox.checked = false;
+                    }
+                });
+            });
+            
+            const planets = document.querySelectorAll('.planet');
+            const experienceItems = document.querySelectorAll('.experience-item');
+            const sun = document.querySelector('.sun');
+            
+            sun.style.cursor = 'pointer';
+            sun.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                
+                planets.forEach(planet => planet.classList.remove('active'));
+                experienceItems.forEach(item => item.classList.remove('active'));
+            });
+            
+            planets.forEach((planet, index) => {
+                planet.style.cursor = 'pointer';
+                
+                planet.addEventListener('click', () => {
+                    if (index < experienceItems.length) {
+                        planets.forEach(p => p.classList.remove('active'));
+                        experienceItems.forEach(item => item.classList.remove('active'));
+                        
+                        planet.classList.add('active');
+                        
+                        experienceItems[index].classList.add('active');
+                        
+                        experienceItems[index].scrollIntoView({ 
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+            
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.planet') && !e.target.closest('.experience-item')) {
+                    planets.forEach(planet => planet.classList.remove('active'));
+                    experienceItems.forEach(item => item.classList.remove('active'));
+                }
+            });
+            
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    planets.forEach(planet => planet.classList.remove('active'));
+                    experienceItems.forEach(item => item.classList.remove('active'));
+                }
+            });
+        });
+    </script>
+</body>
+</html>

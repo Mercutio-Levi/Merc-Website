@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Education | Mercutio Levi</title>
+    <style>
+        /* ===================================================
+           CSS VARIABLES - Consistent with index.html
+           =================================================== */
+        :root {
+            --black: #000000;
+            --white: #ffffff;
+            --gray-dark: #1a1a1a;
+            --gray-medium: #333333;
+            --gray-light: #666666;
+            --gray-soft: #e0e0e0;
+            --accent: #00e5ff; /* Updated to match experience page */
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            
+            /* ADJUST: Layout heights - Desktop */
+            --video-height: 80vh;
+            --cards-height: 20vh;
+            --fade-height: 100px;
+            
+            /* ADJUST: Card sizes - Desktop */
+            --card-min-width: 150px;
+            --card-max-width: 250px;
+        }
+
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--black);
+            color: var(--white);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* ===================================================
+           HERO IMAGE SECTION (Replaces video from homepage)
+           =================================================== */
+        .hero-image-section {
+            height: var(--video-height);
+            position: relative;
+            overflow: hidden;
+            margin-top: 80px; /* Added for fixed nav */
+        }
+
+        .hero-image-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        .hero-image-background.loaded {
+            opacity: 1;
+        }
+
+        .background-hero-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        /* Image Overlay for Text Readability */
+        .hero-image-background::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* ===================================================
+           NAVIGATION - UPDATED TO MATCH EXPERIENCE PAGE
+           =================================================== */
+        .nav-banner {
+            position: fixed; /* Changed from absolute to fixed */
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: transparent;
+            z-index: 1000;
+            padding: 0.8rem 5%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 3rem;
+            height: 80px;
+            backdrop-filter: blur(8px); /* Added from experience page */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15); /* Added from experience page */
+        }
+
+        .logo-link {
+            text-decoration: none;
+            display: block;
+            width: 80px; /* Updated to fixed size like experience page */
+            height: 45px; /* Updated to fixed size like experience page */
+        }
+
+        .logo-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-image {
+            width: 100%;
+            height: 100%;
+            object-fit: fill; /* Changed from contain to fill like experience page */
+            display: block;
+            background: transparent;
+            filter: brightness(1.5); /* Added from experience page */
+        }
+
+        /* Desktop Navigation */
+        .nav-menu {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 500;
+            padding: 0.5rem 0;
+            transition: color 0.3s ease; /* Added transition */
+            letter-spacing: 0.5px;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        /* ACCENT COLOR HOVER EFFECT (Like experience page) */
+        .nav-link:hover {
+            color: var(--accent); /* Updated to accent color */
+        }
+
+        .nav-link.active {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        /* Mobile Hamburger Menu */
+        .hamburger-checkbox {
+            display: none;
+        }
+
+        .hamburger-icon {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 21px;
+            cursor: pointer;
+            z-index: 101;
+        }
+
+        .hamburger-icon span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background-color: var(--white);
+            border-radius: 3px;
+        }
+
+        /* ===================================================
+           HERO TEXT SECTION (Centered in hero area)
+           =================================================== */
+        .hero-text-section {
+            height: 100%;
+            padding: 0 5%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            z-index: 10;
+            position: relative;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 5vw, 5rem);
+            font-weight: 800;
+            color: var(--white);
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+            line-height: 1.1;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.5rem, 2.5vw, 2.5rem);
+            color: var(--white);
+            font-weight: 400;
+            letter-spacing: 1px;
+            opacity: 0.9;
+            text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.8);
+        }
+
+        /* ===================================================
+           MAIN CONTENT - WITH FLUID MARGINS
+           =================================================== */
+        .main-content {
+            padding: 3rem 5% 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            background: var(--black);
+            position: relative;
+            z-index: 20;
+        }
+
+        /* ===================================================
+           EDUCATION SECTIONS
+           =================================================== */
+        .education-section {
+            margin-bottom: 6rem;
+            width: 100%;
+        }
+
+        .section-title {
+            font-size: clamp(1.8rem, 3vw, 2.2rem);
+            color: var(--white);
+            margin-bottom: 3rem;
+            font-weight: 600;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .section-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.5rem;
+            bottom: 0.5rem;
+            width: 4px;
+            background: var(--accent); /* Updated to use accent color */
+            border-radius: 2px;
+        }
+
+        /* ===================================================
+           UNIVERSITY ITEMS - CSS GRID LAYOUT
+           =================================================== */
+        .major-education-list {
+            display: flex;
+            flex-direction: column;
+            gap: 4rem;
+            width: 100%;
+        }
+
+        .major-education-item {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            grid-template-rows: auto;
+            gap: 2.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 2.5rem;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .major-education-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        }
+
+        .major-education-item:hover {
+            border-color: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        /* ===================================================
+           IMAGE COLUMN - TOP & BOTTOM IMAGES
+           =================================================== */
+        .education-images-column {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .education-image-container {
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--gray-dark);
+            position: relative;
+            aspect-ratio: 16/9;
+        }
+
+        .education-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .major-education-item:hover .education-image {
+            transform: scale(1.05);
+        }
+
+        /* ===================================================
+           CONTENT COLUMN
+           =================================================== */
+        .education-content {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .education-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .education-title {
+            font-size: 1.6rem;
+            color: var(--white);
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        .education-institution {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .institution-icon {
+            font-size: 1.2rem;
+        }
+
+        .institution-name {
+            font-size: 1.1rem;
+            color: var(--gray-soft);
+            font-weight: 500;
+        }
+
+        .education-date {
+            font-size: 0.95rem;
+            color: var(--accent); /* Updated to use accent color */
+            font-weight: 500;
+            padding: 0.4rem 1rem;
+            background: rgba(0, 229, 255, 0.1); /* Updated to match accent */
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(0, 229, 255, 0.2); /* Updated to match accent */
+        }
+
+        .education-description {
+            font-size: 1.05rem;
+            color: var(--gray-soft);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .education-highlights {
+            margin: 1.5rem 0;
+            padding-left: 1.5rem;
+        }
+
+        .education-highlights li {
+            margin-bottom: 0.5rem;
+            color: var(--gray-soft);
+            line-height: 1.6;
+        }
+
+        /* ===================================================
+           CERTIFICATION CARDS - HOMEPAGE STYLE HOVER EFFECT
+           =================================================== */
+        .certifications-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            width: 100%;
+        }
+
+        /* Card Base - Like homepage cards */
+        .certification-card {
+            text-decoration: none;
+            display: block;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            background: rgba(20, 20, 20, 0.9);
+            aspect-ratio: 4/3; /* Slightly taller than square */
+            width: 100%;
+            transition: var(--transition);
+        }
+
+        /* Card Images */
+        .certification-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            background: rgba(0, 0, 0, 0.5);
+            display: block;
+            transition: var(--transition);
+        }
+
+        /* Card Overlay - Hidden by default */
+        .certification-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, 
+                rgba(0, 0, 0, 0.95), 
+                rgba(0, 0, 0, 0.8) 30%, 
+                transparent 70%
+            );
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 1.5rem;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        /* Card Titles */
+        .certification-title {
+            font-size: 1.2rem;
+            color: var(--white);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            transform: translateY(10px);
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+        }
+
+        /* Card Descriptions */
+        .certification-description {
+            font-size: 0.9rem;
+            color: var(--gray-soft);
+            opacity: 0;
+            transform: translateY(10px);
+            line-height: 1.5;
+        }
+
+        /* Provider & Date */
+        .certification-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+        }
+
+        .certification-provider {
+            font-size: 0.85rem;
+            color: var(--gray-soft);
+            font-weight: 500;
+        }
+
+        .certification-date {
+            font-size: 0.8rem;
+            color: var(--accent); /* Updated to use accent color */
+            background: rgba(0, 229, 255, 0.1); /* Updated to match accent */
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 229, 255, 0.2); /* Updated to match accent */
+        }
+
+        /* ===================================================
+           DESKTOP HOVER EFFECTS (Exactly like homepage)
+           =================================================== */
+        @media (hover: hover) and (pointer: fine) {
+            .certification-card:hover {
+                transform: translateY(-8px) scale(1.03);
+                box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5);
+                border-color: rgba(255, 255, 255, 0.3);
+                transition: var(--transition);
+            }
+            
+            .certification-card:hover .certification-image {
+                filter: brightness(0.3);
+                transform: scale(1.05);
+                transition: var(--transition);
+            }
+            
+            .certification-card:hover .certification-overlay {
+                opacity: 1;
+                transform: translateY(0);
+                transition: var(--transition);
+            }
+            
+            .certification-card:hover .certification-title {
+                transform: translateY(0);
+                transition: transform 0.4s ease 0.1s;
+            }
+            
+            .certification-card:hover .certification-description {
+                opacity: 0.9;
+                transform: translateY(0);
+                transition: all 0.4s ease 0.2s;
+            }
+        }
+
+        /* ===================================================
+           FOOTER
+           =================================================== */
+        .footer {
+            text-align: center;
+            padding: 3rem 5%;
+            color: var(--gray-light);
+            font-size: 0.9rem;
+            line-height: 1.8;
+            width: 100%;
+            background: var(--black);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* ===================================================
+           RESPONSIVE ADJUSTMENTS
+           =================================================== */
+        @media (max-width: 1024px) {
+            .major-education-item {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                padding: 2rem;
+            }
+            
+            .education-images-column {
+                flex-direction: row;
+                gap: 1rem;
+            }
+            
+            .education-image-container {
+                flex: 1;
+            }
+            
+            .certifications-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            /* Mobile Navigation */
+            .hamburger-icon {
+                display: flex;
+            }
+            
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 80%;
+                max-width: 300px;
+                height: 100vh;
+                background-color: rgba(0, 0, 0, 0.98);
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 80px 2rem 2rem;
+                gap: 1.5rem;
+                border-left: 1px solid rgba(255, 255, 255, 0.1);
+                transition: right 0.3s ease;
+            }
+            
+            .hamburger-checkbox:checked ~ .nav-menu {
+                right: 0;
+            }
+            
+            /* Mobile Adjustments */
+            .hero-image-section {
+                display: none; /* Hide hero image on mobile */
+                margin-top: 0; /* Remove margin on mobile */
+            }
+            
+            .nav-banner {
+                position: relative; /* Change to relative on mobile */
+                background-color: rgba(0, 0, 0, 0.85);
+            }
+            
+            .main-content {
+                padding: 2rem 5% 2rem;
+            }
+
+            .hero-text-section {
+                display: none;
+            }
+
+            .major-education-item {
+                padding: 1.5rem;
+            }
+
+            .education-images-column {
+                flex-direction: column;
+            }
+
+            .education-title {
+                font-size: 1.4rem;
+            }
+
+            .education-description {
+                font-size: 1rem;
+            }
+            
+            .certifications-grid {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+                margin: 0 auto;
+            }
+            
+            /* Mobile tap instead of hover */
+            .certification-card.active-mobile {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+                border-color: rgba(255, 255, 255, 0.2);
+            }
+            
+            .certification-card.active-mobile .certification-overlay {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            
+            .certification-card.active-mobile .certification-title {
+                transform: translateY(0);
+            }
+            
+            .certification-card.active-mobile .certification-description {
+                opacity: 0.9;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-banner {
+                gap: 2rem;
+                padding: 0.8rem 5%;
+            }
+
+            .major-education-item {
+                padding: 1.2rem;
+            }
+
+            .education-image-container {
+                aspect-ratio: 16/9;
+            }
+
+            .education-title {
+                font-size: 1.3rem;
+            }
+
+            .section-title {
+                padding-left: 1rem;
+                font-size: 1.6rem;
+            }
+            
+            .certifications-grid {
+                max-width: 320px;
+            }
+            
+            .certification-card {
+                aspect-ratio: 4/3;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.5rem;
+            }
+            
+            .certifications-grid {
+                max-width: 280px;
+            }
+        }
+
+        /* Desktop Animations */
+        @media (hover: hover) and (pointer: fine) and (min-width: 769px) {
+            .hero-text-section {
+                animation: fadeInUp 1s ease-out 0.6s both;
+            }
+
+            .hero-subtitle {
+                animation: fadeInUp 1s ease-out 0.8s both;
+            }
+            
+            /* Card Entrance Animations */
+            .certification-card:nth-child(1) {
+                animation: fadeInUp 1s ease-out 0.9s both;
+            }
+
+            .certification-card:nth-child(2) {
+                animation: fadeInUp 1s ease-out 1s both;
+            }
+
+            .certification-card:nth-child(3) {
+                animation: fadeInUp 1s ease-out 1.1s both;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <section class="hero-image-section">
+        <div class="hero-image-background" id="heroImageBackground">
+            <img src="/assets/images/DIT.jpeg" alt="Education Background" class="background-hero-image">
+        </div>
+        
+        <nav class="nav-banner">
+            <a href="index.html" class="logo-link">
+                <div class="logo-container">
+                    <img src="/assets/images/logo/MERC_black.jpg" alt="Mercutio Levi Logo" class="logo-image">
+                </div>
+            </a>
+            
+            <input type="checkbox" id="hamburger-toggle" class="hamburger-checkbox">
+            <label for="hamburger-toggle" class="hamburger-icon" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+            
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="education.html" class="nav-link active">Education</a>
+                <a href="experience.html" class="nav-link">Experience</a>
+                <a href="projects-lock.html" class="nav-link">Projects</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </div>
+        </nav>
+        
+        <div class="hero-text-section">
+            <h1 class="hero-title">Education and Additional Awards</h1>
+            <h2 class="hero-subtitle">Academic Journey & Growth</h2>
+        </div>
+    </section>
+
+    <main class="main-content">
+        <section class="education-section">
+            <h2 class="section-title">University Education</h2>
+            <div class="major-education-list">
+
+                <div class="major-education-item">
+                    <div class="education-images-column">
+                        <div class="education-image-container">
+                            <img src="/assets/images/Photo_1.JPG" alt="Mercutio Levi at Rangsit University" class="education-image">
+                        </div>
+                        <div class="education-image-container">
+                            <img src="/assets/images/Rangsit_DIT.jpg" alt="Rangsit University Campus" class="education-image">
+                        </div>
+                    </div>
+                    <div class="education-content">
+                        <div class="education-header">
+                            <h3 class="education-title">Bachelor of Digital Innovation Technology</h3>
+                            <div class="education-institution">
+                                <span class="institution-icon">🏛️</span>
+                                <span class="institution-name">Rangsit University International College</span>
+                            </div>
+                            <span class="education-date">2023 ( Pause )</span>
+                            <p class="education-description">
+                                Undergraduate degree focused on digital innovation, software development, 
+                                and modern technologies. Coursework includes data science, programming, 
+                                digital systems, and creative technology.
+                            </p>
+                            <ul class="education-highlights">
+                                <li>Specialized in software development and data analysis</li>
+                                <li>Active involvement in peer mentoring and student community</li>
+                                <li>Participated in technology workshops and hackathons</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="major-education-item">
+                    <div class="education-images-column">
+                        <div class="education-image-container">
+                            <img src="/assets/images/Dagon_Logo.jpeg" alt="Dagon University" class="education-image">
+                        </div>
+                        <div class="education-image-container">
+                            <img src="/assets/images/Dagon_University.jpg" alt="Dagon University Campus" class="education-image">
+                        </div>
+                    </div>
+                    <div class="education-content">
+                        <div class="education-header">
+                            <h3 class="education-title">Bachlor of English</h3>
+                            <div class="education-institution">
+                                <span class="institution-icon">🎓</span>
+                                <span class="institution-name">Dagon University</span>
+                            </div>
+                            <span class="education-date">2020 - Paused</span>
+                            <p class="education-description">
+                                Enrolled in English Distance Education program. Studies paused due to 
+                                the Myanmar political situation. Provided foundational experience in 
+                                communication, critical thinking, and language structure.
+                            </p>
+                            <ul class="education-highlights">
+                                <li>Developed strong written and verbal communication skills</li>
+                                <li>Enhanced critical thinking through literature analysis</li>
+                                <li>Gained understanding of language structure and linguistics</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="education-section">
+            <h2 class="section-title">Additional Awards</h2>
+            
+            <div class="certifications-grid">
+                <div class="certification-card">
+                    <img src="/assets/images/Lotus.jpeg" alt="International Bakery & Pastry Course" class="certification-image">
+                    <div class="certification-overlay">
+                        <div class="certification-meta">
+                            <span class="certification-provider">Lotus School of Hospitality</span>
+                            <span class="certification-date">2019</span>
+                        </div>
+                        <h3 class="certification-title">International Bakery & Pastry Course</h3>
+                        <p class="certification-description">
+                            Professional training in international bakery and pastry production. 
+                            Gained hands-on skills in precision work, food preparation, and teamwork.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="certification-card">
+                    <img src="/assets/images/YGN.jpeg" alt="Computer Skills Certificate" class="certification-image">
+                    <div class="certification-overlay">
+                        <div class="certification-meta">
+                            <span class="certification-provider">YGN Net</span>
+                            <span class="certification-date">2022</span>
+                        </div>
+                        <h3 class="certification-title">Computer Skills Certificate</h3>
+                        <p class="certification-description">
+                            Certified in Windows installation, hardware/software setup, 
+                            troubleshooting, and antivirus usage after 12-hour hands-on training.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="certification-card">
+                    <img src="/assets/images/MCC.jpeg" alt="Advance A+ & Computer Training" class="certification-image">
+                    <div class="certification-overlay">
+                        <div class="certification-meta">
+                            <span class="certification-provider">Various Institutes</span>
+                            <span class="certification-date">2013-2022</span>
+                        </div>
+                        <h3 class="certification-title">Advance A+ & Computer for Kids (Senior)</h3>
+                        <p class="certification-description">
+                            Completed foundational and advanced computer training, covering system 
+                            basics, hardware fundamentals, and early digital literacy.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>© 2020 Okka Tun (Mercutio Levi). All rights reserved.</p>
+        <p>Designed to showcase skills for scholarships & career opportunities</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const heroImageBackground = document.getElementById('heroImageBackground');
+            const heroImage = heroImageBackground.querySelector('.background-hero-image');
+            
+            heroImage.addEventListener('load', function() {
+                heroImageBackground.classList.add('loaded');
+            });
+            
+            setTimeout(function() {
+                heroImageBackground.classList.add('loaded');
+            }, 1000);
+            
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function() {
+                    if (window.innerWidth <= 768) {
+                        document.getElementById('hamburger-toggle').checked = false;
+                    }
+                });
+            });
+
+            document.querySelectorAll('.education-image').forEach(img => {
+                img.addEventListener('load', function() {
+                    this.style.opacity = '1';
+                    this.style.transform = 'scale(1)';
+                });
+                
+                img.style.opacity = '0';
+                img.style.transform = 'scale(0.95)';
+                img.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            });
+
+            document.querySelectorAll('.certification-image').forEach(img => {
+                img.addEventListener('load', function() {
+                    this.style.opacity = '1';
+                });
+                img.style.opacity = '0';
+                img.style.transition = 'opacity 0.5s ease';
+            });
+
+            if (window.innerWidth <= 768) {
+                const certificationCards = document.querySelectorAll('.certification-card');
+                
+                certificationCards.forEach(card => {
+                    card.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        
+                        certificationCards.forEach(c => {
+                            c.classList.remove('active-mobile');
+                        });
+                        
+                        this.classList.add('active-mobile');
+                        
+                        setTimeout(() => {
+                            this.classList.remove('active-mobile');
+                        }, 3000);
+                    });
+                });
+            }
+            
+            let lastScrollTop = 0;
+            const navBanner = document.querySelector('.nav-banner');
+            
+            window.addEventListener('scroll', function() {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                
+                if (scrollTop > 100) {
+                    navBanner.style.backgroundColor = 'rgba(0, 0, 0, 0.85)';
+                } else {
+                    navBanner.style.backgroundColor = '';
+                }
+                lastScrollTop = scrollTop;
+            });
+            
+            function setHeroSectionHeight() {
+                if (window.innerWidth > 768) {
+                    const heroSection = document.querySelector('.hero-image-section');
+                    heroSection.style.height = window.innerHeight * 0.8 + 'px';
+                }
+            }
+            
+            setHeroSectionHeight();
+            window.addEventListener('resize', setHeroSectionHeight);
+            
+            if (window.innerWidth > 768) {
+                document.querySelectorAll('.certification-card').forEach(card => {
+                    card.addEventListener('click', function(e) {
+                        this.style.opacity = '0.95';
+                        setTimeout(() => {
+                            this.style.opacity = '';
+                        }, 150);
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>
